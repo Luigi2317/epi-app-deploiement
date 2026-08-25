@@ -5,8 +5,17 @@
 # roues CUDA de PyTorch — 2,5 Go — et le deploiement echoue faute de place.
 # L'index CPU ramene le meme torch a environ 200 Mo.
 #
-# opencv-python-headless remplace opencv-python : la variante normale exige
-# des bibliotheques graphiques absentes d'un serveur sans ecran.
+# Sur OpenCV, revirement du 25/08. La variante `headless` avait ete choisie
+# pour eviter les bibliotheques graphiques d'un serveur sans ecran. Le
+# journal de deploiement a montre que c'etait inefficace : ultralytics
+# declare `opencv-python` NORMAL dans ses dependances, donc pip l'installe
+# de toute facon. On se retrouvait avec DEUX OpenCV dans le meme
+# environnement, se disputant le meme module `cv2` — et libGL manquait
+# quand meme.
+#
+# On garde donc la variante normale, a la meme version, et on fournit
+# libGL par packages.txt. Une seule installation d'OpenCV, une seule
+# source de verite.
 #
 # Les versions sont identiques a celles du poste local et du serveur
 # d'entrainement. Un deploiement qui n'utilise pas les memes versions ne
@@ -17,7 +26,7 @@
 numpy==1.26.4
 pandas==2.2.3
 matplotlib==3.9.2
-opencv-python-headless==4.10.0.84
+opencv-python==4.10.0.84
 Pillow==10.4.0
 pyyaml==6.0.2
 streamlit==1.39.0
