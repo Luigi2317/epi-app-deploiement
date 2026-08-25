@@ -5,9 +5,12 @@
 # pip installe du Python, pas du systeme.
 #
 #   libglib2.0-0  threads et boucle d'evenements — exige meme sans ecran
-#   libgl1        rendu graphique — reclame par certaines versions d'OpenCV
 #
 # Sans ce fichier, `import cv2` echoue au demarrage avec une ImportError
 # sur un fichier .so manquant.
+#
+# On NE met PAS libgl1 : c'est la bibliotheque OpenGL, dont la variante
+# `headless` d'OpenCV se passe justement. Son nom varie selon la version de
+# Debian (libgl1 / libgl1-mesa-glx), et un nom inconnu fait echouer apt —
+# donc l'installation entiere. On demande le strict necessaire.
 libglib2.0-0
-libgl1
