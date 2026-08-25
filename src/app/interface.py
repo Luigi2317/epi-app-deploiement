@@ -130,12 +130,18 @@ def charger_le_detecteur() -> tuple[Detecteur, str, str | None]:
     s'ils venaient du systeme mesure.
     """
     try:
-        return obtenir_detecteur(MODELE_RETENU), MODELE_RETENU, None
+        detecteur, nom, motif = obtenir_detecteur(MODELE_RETENU), MODELE_RETENU, None
     except Exception as erreur:                       # noqa: BLE001
         repli = RACINE / "models" / f"{MODELE_REPLI}.pt"
         if not repli.is_file():
             raise
-        return obtenir_detecteur(MODELE_REPLI), MODELE_REPLI, str(erreur)
+        detecteur, nom, motif = obtenir_detecteur(MODELE_REPLI), MODELE_REPLI, str(erreur)
+
+    # On memorise ce qui tourne REELLEMENT, pour que la barre laterale
+    # puisse l'afficher sans avoir a charger le modele elle-meme.
+    st.session_state["_modele_actif"] = nom
+    st.session_state["_motif_repli"] = motif
+    return detecteur, nom, motif
 
 
 def afficher_image(image, legende: str = "") -> None:
@@ -217,13 +223,17 @@ def tableau_personnes(resultat: ResultatImage) -> list[dict]:
 # Pages
 # --------------------------------------------------------------------------
 
-def page_image(detecteur: Detecteur) -> None:
+def page_image() -> None:
     st.subheader(t("Analyse d'une image"))
     fichier = st.file_uploader(t("Photographie de chantier"),
                                type=["jpg", "jpeg", "png", "bmp"])
     if fichier is None:
         st.info(t("Depose une image pour lancer l'analyse."))
         return
+
+    # Le detecteur se charge ICI, apres le depot d'un fichier : tant que
+    # personne n'analyse rien, aucun modele n'occupe la memoire.
+    detecteur, _, _ = charger_le_detecteur()
 
     import cv2
     donnees = np.frombuffer(fichier.getvalue(), np.uint8)
@@ -288,7 +298,7 @@ def page_image(detecteur: Detecteur) -> None:
     )
 
 
-def page_video(detecteur: Detecteur, reglages: Reglages) -> None:
+def page_video(reglages: Reglages) -> None:
     st.subheader(t("Analyse d'une video"))
     st.caption(
         t("C'est ici qu'agissent les trois mecanismes du J11 : deux seuils au "
@@ -302,6 +312,9 @@ def page_video(detecteur: Detecteur, reglages: Reglages) -> None:
     if fichier is None:
         st.info(t("Depose une video pour lancer l'analyse."))
         return
+
+    # Meme principe que pour l'image : chargement a la demande.
+    detecteur, _, _ = charger_le_detecteur()
 
     with tempfile.NamedTemporaryFile(delete=False, suffix=Path(fichier.name).suffix) as tampon:
         tampon.write(fichier.getvalue())
@@ -442,7 +455,16 @@ def main() -> None:
     st.title(t("Detection d'equipements de protection"))
     st.caption(t("Le modele detecte des objets. Les regles produisent le verdict."))
 
-    detecteur, nom_modele, motif_repli = charger_le_detecteur()
+    # Le modele n'est PLUS charge au demarrage. Il l'etait, et cela suffisait
+    # a faire echouer le deploiement : lire 45 Mo de poids puis prechauffer
+    # sur un processeur partage depasse le delai d'attente de l'hebergeur,
+    # qui tue le processus avant que Streamlit n'ouvre son port — sans
+    # message, puisque le noyau n'attend pas que Python s'explique.
+    #
+    # Il se charge desormais a la premiere analyse reelle. Le tableau de
+    # bord, qui lit un corpus deja calcule, n'en a jamais besoin.
+    nom_modele = st.session_state.get("_modele_actif", MODELE_RETENU)
+    motif_repli = st.session_state.get("_motif_repli")
 
     with st.sidebar:
         st.divider()
@@ -484,9 +506,9 @@ def main() -> None:
     with onglet_bord:
         tableau_bord.page(nom_modele)
     with onglet_image:
-        page_image(detecteur)
+        page_image()
     with onglet_video:
-        page_video(detecteur, Reglages())
+        page_video(Reglages())
     with onglet_guide:
         page_guide()
     with onglet_limites:
