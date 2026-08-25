@@ -1,0 +1,13 @@
+# Paquets SYSTEME installes avant les paquets Python.
+#
+# OpenCV est une bibliotheque C++ enveloppee de Python. Meme en version
+# `headless`, elle se lie a des bibliotheques Linux que pip ne fournit pas :
+# pip installe du Python, pas du systeme.
+#
+#   libglib2.0-0  threads et boucle d'evenements — exige meme sans ecran
+#   libgl1        rendu graphique — reclame par certaines versions d'OpenCV
+#
+# Sans ce fichier, `import cv2` echoue au demarrage avec une ImportError
+# sur un fichier .so manquant.
+libglib2.0-0
+libgl1
