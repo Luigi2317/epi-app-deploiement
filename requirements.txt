@@ -1,0 +1,26 @@
+# =============================================================================
+# Dependances de l'application DEPLOYEE.
+#
+# La premiere ligne est la plus importante : sans elle, pip installe les
+# roues CUDA de PyTorch — 2,5 Go — et le deploiement echoue faute de place.
+# L'index CPU ramene le meme torch a environ 200 Mo.
+#
+# opencv-python-headless remplace opencv-python : la variante normale exige
+# des bibliotheques graphiques absentes d'un serveur sans ecran.
+#
+# Les versions sont identiques a celles du poste local et du serveur
+# d'entrainement. Un deploiement qui n'utilise pas les memes versions ne
+# demontre pas le systeme qu'on a mesure.
+# =============================================================================
+--extra-index-url https://download.pytorch.org/whl/cpu
+
+numpy==1.26.4
+pandas==2.2.3
+matplotlib==3.9.2
+opencv-python-headless==4.10.0.84
+Pillow==10.4.0
+pyyaml==6.0.2
+streamlit==1.39.0
+torch==2.4.1
+torchvision==0.19.1
+ultralytics==8.3.9

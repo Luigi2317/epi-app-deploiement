@@ -1,0 +1,107 @@
+{
+  "modele": "yolov8m",
+  "split": "val",
+  "iou_appariement": 0.5,
+  "eemua": {
+    "cameras": 8,
+    "images_par_heure": 28800,
+    "verifications_par_heure": 57600,
+    "alertes_max": 6,
+    "taux_fausses_alarmes_admissible": 0.00010416666666666667,
+    "precision_requise": 0.9998958333333333
+  },
+  "classes": {
+    "helmet": {
+      "instances": 125,
+      "detections": 535,
+      "points": {
+        "f1_max": {
+          "seuil": 0.4653,
+          "precision": 0.8182,
+          "rappel": 0.648,
+          "f1": 0.7232,
+          "vrais_positifs": 81,
+          "fausses_alarmes": 18
+        },
+        "precision_90": {
+          "seuil": 0.7242,
+          "precision": 0.9211,
+          "rappel": 0.56,
+          "f1": 0.6965,
+          "vrais_positifs": 70,
+          "fausses_alarmes": 6
+        },
+        "rappel_80": null
+      }
+    },
+    "safety-vest": {
+      "instances": 86,
+      "detections": 479,
+      "points": {
+        "f1_max": {
+          "seuil": 0.1456,
+          "precision": 0.6056,
+          "rappel": 0.5,
+          "f1": 0.5478,
+          "vrais_positifs": 43,
+          "fausses_alarmes": 28
+        },
+        "precision_90": {
+          "seuil": 0.8876,
+          "precision": 0.9286,
+          "rappel": 0.1512,
+          "f1": 0.26,
+          "vrais_positifs": 13,
+          "fausses_alarmes": 1
+        },
+        "rappel_80": null
+      }
+    },
+    "glasses": {
+      "instances": 364,
+      "detections": 4164,
+      "points": {
+        "f1_max": {
+          "seuil": 0.4516,
+          "precision": 0.8539,
+          "rappel": 0.6264,
+          "f1": 0.7227,
+          "vrais_positifs": 228,
+          "fausses_alarmes": 39
+        },
+        "precision_90": {
+          "seuil": 0.5894,
+          "precision": 0.9009,
+          "rappel": 0.5495,
+          "f1": 0.6826,
+          "vrais_positifs": 200,
+          "fausses_alarmes": 22
+        },
+        "rappel_80": null
+      }
+    },
+    "gloves": {
+      "instances": 469,
+      "detections": 4067,
+      "points": {
+        "f1_max": {
+          "seuil": 0.4193,
+          "precision": 0.7658,
+          "rappel": 0.516,
+          "f1": 0.6166,
+          "vrais_positifs": 242,
+          "fausses_alarmes": 74
+        },
+        "precision_90": {
+          "seuil": 0.831,
+          "precision": 0.9195,
+          "rappel": 0.2921,
+          "f1": 0.4434,
+          "vrais_positifs": 137,
+          "fausses_alarmes": 12
+        },
+        "rappel_80": null
+      }
+    }
+  }
+}

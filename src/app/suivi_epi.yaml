@@ -1,0 +1,45 @@
+# Configuration de suivi adaptee a la detection d'EPI sur chantier.
+#
+# POURQUOI NE PAS GARDER LES VALEURS PAR DEFAUT
+# ----------------------------------------------
+# Mesure du 23 aout, sur deux videos de chantier totalisant 38 secondes :
+#
+#     17 personnes reelles  ->  96 identifiants crees   (fragmentation x 5,6)
+#     24 alertes emises     ->   2 legitimes            (92 % de fausses)
+#
+# Les fausses alertes ne venaient PAS du detecteur ni de l'hysteresis, mais
+# du suivi : chaque fragment d'un ouvrier casque devient une « nouvelle
+# personne », et si son casque n'est pas detecte pendant quelques images,
+# ce fragment declenche une alerte.
+#
+# LES TROIS CHANGEMENTS
+# ---------------------
+# new_track_thresh  0.25 -> 0.50
+#     Une detection faible ne cree plus d'identite. C'est le parametre le
+#     plus direct contre les personnes fantomes.
+#
+# track_buffer      30 -> 90
+#     Un identifiant survit 90 images au lieu de 30, soit trois secondes a
+#     30 images/seconde au lieu d'une. Un ouvrier qui passe derriere un
+#     echafaudage garde son numero.
+#     Contrepartie assumee : un identifiant conserve trop longtemps peut
+#     etre recycle sur une autre personne. On prefere ce risque a la
+#     fragmentation, qui produit des alertes sur des gens conformes.
+#
+# track_high_thresh 0.25 -> 0.40
+#     L'appariement de premiere passe ne travaille que sur des detections
+#     credibles.
+#
+# CE QUI N'EST PAS CHANGE
+# -----------------------
+# track_low_thresh reste bas : c'est lui qui permet de RECUPERER une
+# personne dont la detection faiblit momentanement, au lieu de la perdre.
+# Le relever aggraverait la fragmentation.
+
+tracker_type: bytetrack
+track_high_thresh: 0.40
+track_low_thresh: 0.10
+new_track_thresh: 0.50
+track_buffer: 90
+match_thresh: 0.8
+fuse_score: True

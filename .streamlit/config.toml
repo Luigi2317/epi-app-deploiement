@@ -1,0 +1,6 @@
+# Configuration Streamlit du service deploye.
+[server]
+maxUploadSize = 40
+
+[theme]
+base = "light"
