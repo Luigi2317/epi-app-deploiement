@@ -264,13 +264,27 @@ TRADUCTIONS = {
 
 
 def choisir() -> str:
-    """Le selecteur, a placer dans le panneau lateral."""
+    """
+    Le selecteur, a placer dans le panneau lateral.
+
+    Le widget porte une CLE, et c'est ce qui le fait fonctionner.
+
+    Sans cle, Streamlit identifie un widget par ses parametres de
+    construction — `index` compris. Or `index` change des qu'on choisit une
+    autre langue : Streamlit croit alors voir un widget different, le
+    recree a neuf, et l'etat du clic se perd entre deux executions. Le
+    bouton semble inerte.
+
+    Avec `key="langue"`, Streamlit lit et ecrit lui-meme
+    `st.session_state["langue"]`. On ne lui passe plus d'index, et on ne
+    reassigne plus la valeur a la main — le faire leverait d'ailleurs une
+    erreur, la cle appartenant desormais au widget.
+    """
     if "langue" not in st.session_state:
         st.session_state["langue"] = DEFAUT
-    st.session_state["langue"] = st.radio(
-        "Langue / Language", list(LANGUES),
-        format_func=lambda c: LANGUES[c], horizontal=True,
-        index=list(LANGUES).index(st.session_state["langue"]))
+    st.radio("Langue / Language", list(LANGUES),
+             format_func=lambda c: LANGUES[c], horizontal=True,
+             key="langue")
     return st.session_state["langue"]
 
 
