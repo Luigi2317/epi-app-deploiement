@@ -41,38 +41,35 @@ DEFAUT = "fr"
 # --------------------------------------------------------------------------
 TRADUCTIONS = {
     # --- titres et navigation ---
-    "Detection d'equipements de protection": "Personal protective equipment detection",
-    "Le modele detecte des objets. Les regles produisent le verdict.":
+    "Détection d'équipements de protection": "Personal protective equipment detection",
+    "Le modèle détecte des objets. Les règles produisent le verdict.":
         "The model detects objects. The rules produce the verdict.",
     "Tableau de bord": "Dashboard",
     "Image": "Image",
-    "Video": "Video",
+    "Vidéo": "Video",
     "Limites": "Limitations",
-    "Reglages": "Settings",
-    "Modele": "Model",
+    "Réglages": "Settings",
+    "Modèle": "Model",
     "Corpus": "Corpus",
 
     # --- indicateurs ---
     "Personnes vues": "People seen",
-    "Surveillees": "Monitored",
     "Surveillées": "Monitored",
     "Non jugeables": "Cannot be judged",
-    "[OK] Casque detecte": "[OK] Helmet detected",
-    "[!] Casque non detecte": "[!] Helmet not detected",
-    "Duree": "Duration",
+    "[OK] Casque détecté": "[OK] Helmet detected",
+    "[!] Casque non détecté": "[!] Helmet not detected",
+    "Durée": "Duration",
     "Taux de détection du casque": "Helmet detection rate",
     "[!] Alertes": "[!] Alerts",
     "Alerte": "Alert",
     "Personne": "Person",
-    "Etat": "State",
     "État": "State",
 
     # --- etats ---
-    "surveillee": "monitored",
     "surveillée": "monitored",
-    "[-] hors perimetre": "[-] out of range",
+    "[-] hors périmètre": "[-] out of range",
     "hors périmètre": "out of range",
-    "[?] tete hors champ": "[?] head out of frame",
+    "[?] tête hors champ": "[?] head out of frame",
     "tête hors champ": "head out of frame",
 
     # --- equipements ---
@@ -81,12 +78,12 @@ TRADUCTIONS = {
 
     # --- pages ---
     "Analyse d'une image": "Single image analysis",
-    "Analyse d'une video": "Video analysis",
+    "Analyse d'une vidéo": "Video analysis",
     "Photographie de chantier": "Construction site photograph",
-    "Sequence de chantier": "Construction site footage",
-    "Depose une image pour lancer l'analyse.":
+    "Séquence de chantier": "Construction site footage",
+    "Dépose une image pour lancer l'analyse.":
         "Drop an image to start the analysis.",
-    "Depose une video pour lancer l'analyse.":
+    "Dépose une vidéo pour lancer l'analyse.":
         "Drop a video to start the analysis.",
     "Image illisible.": "Unreadable image.",
     "Analyse en cours…": "Analysing…",
@@ -94,11 +91,11 @@ TRADUCTIONS = {
     "Personnes suivies": "People tracked",
     "Basculements de verdict": "Verdict flips",
     "Alertes": "Alerts",
-    "Aucune alerte confirmee sur cette sequence.":
+    "Aucune alerte confirmée sur cette séquence.":
         "No confirmed alert in this sequence.",
-    "Aucune personne detectee : aucun verdict ne peut etre rendu.":
+    "Aucune personne détectée : aucun verdict ne peut être rendu.":
         "No person detected: no verdict can be given.",
-    "Ce que ce systeme ne garantit pas":
+    "Ce que ce système ne garantit pas":
         "What this system does not guarantee",
     "Où, dans le champ, les alertes se produisent-elles ?":
         "Where in the frame do alerts occur?",
@@ -120,22 +117,17 @@ TRADUCTIONS = {
     "état": "state",
 
     # --- messages longs ---
-    "Legende": "Key",
     "Alertes dans le tiers supérieur": "Alerts in the upper third",
     "Personnes trop petites pour être jugées":
         "People too small to be judged",
     "Corpus absent. Génère-le d'abord :": "Corpus missing. Generate it first:",
 
     # --- reperes a l'ecran le 26 aout, lors de la relecture bilingue ---
-    "[OK] surveillee":
+    "[OK] surveillée":
         "[OK] monitored",
-    "Seuils calibres par classe — mesures, non choisis.":
-        "Per-class calibrated thresholds — measured, not chosen.",
-    "Decision en video":
-        "Video decision",
-    "Validation SH17 — photographies de stock":
+    "Validation SH17, photographies de stock":
         "SH17 validation — stock photographs",
-    "Flux de camera — sequences de chantier reel":
+    "Flux de caméra, séquences de chantier réel":
         "Camera feed — real construction site footage",
     "Répartition horaire — utile pour dimensionner la surveillance humaine.":
         "Hourly distribution — useful for sizing human supervision.",
@@ -143,12 +135,8 @@ TRADUCTIONS = {
         "Simulated timestamps — the shape demonstrates the mechanism, the volumes are real.",
     "Choisis une alerte : le système montre l'image et explique sa décision, détection par détection.":
         "Pick an alert: the system shows the image and explains its decision, detection by detection.",
-    "Confiances mesurées":
-        "Measured confidences",
     "Aucune donnée.":
         "No data.",
-    "Corpus":
-        "Corpus",
 
     # --- messages longs, traduits le 26 aout ---
     # Brouillon MyMemory, puis relecture terme a terme : la machine
@@ -162,36 +150,43 @@ TRADUCTIONS = {
         "**Measured confidence scores**",
     "**Donnée réelle** — position mesurée de chaque personne dans l'image. Aucune simulation ici.":
         "**Real data** — measured position of each person in the image. No simulation here.",
-    "**Legende** — la couleur ne porte jamais l'information seule : chaque boite affiche aussi un symbole. `[OK]` casque detecte · `[!]` casque non detecte · `[?]` tete hors champ, verdict impossible · `[-]` hors perimetre de surveillance.":
-        "**Key** — colour never carries the information alone: every box also shows a symbol. `[OK]` helmet detected · `[!]` helmet not detected · `[?]` head out of frame, verdict impossible · `[-]` outside the monitoring range.",
     "**Un taux bas est ici attendu, et il est juste.** Le jeu d'images de validation ne contient que 773 casques pour 11 063 personnes : la plupart des gens photographiés n'en portent réellement pas. Ce taux décrit la composition du corpus, non un dysfonctionnement du système.":
         "**A low rate is expected here, and it is correct.** The validation image set contains only 773 helmets for 11,063 people: most of the people photographed genuinely are not wearing one. This rate describes the composition of the corpus, not a malfunction of the system.",
-    "3 correspond au reglage utilise pour les mesures du J11.":
+    "3 correspond au réglage utilisé pour les mesures du J11.":
         "3 is the setting used for the day-11 measurements.",
-    "C'est ici qu'agissent les trois mecanismes du J11 : deux seuils au lieu d'un, une confirmation sur images consecutives, et une alerte par personne et par episode.":
+    "C'est ici qu'agissent les trois mécanismes du J11 : deux seuils au "
+    "lieu d'un, une confirmation sur images consécutives, et une alerte par"
+    " personne et par épisode.":
         "This is where the three day-11 mechanisms apply: two thresholds instead of one, confirmation over consecutive frames, and one alert per person and per episode.",
     "La même explication, détection par détection, en ligne de commande.":
         "The same explanation, detection by detection, from the command line.",
-    "Sur une image isolee, il n'y a pas d'historique : le verdict est rendu par comparaison au seuil calibre de chaque classe. L'hysteresis ne s'applique qu'a la video.":
+    "Sur une image isolée, il n'y a pas d'historique : le verdict est rendu"
+    " par comparaison au seuil calibré de chaque classe. L'hystérésis ne "
+    "s'applique qu'à la vidéo.":
         "On a single image there is no history: the verdict is given by comparing against the calibrated threshold of each class. Hysteresis applies to video only.",
     "Une confiance nulle signifie qu'aucun équipement de cette classe n'a été rattaché à cette personne. C'est une information, pas une donnée manquante.":
         "A zero confidence score means no equipment of that class was linked to this person. That is information, not missing data.",
-    "yolov8m est le modele retenu. yolov8n est le repli si la memoire d'hebergement est insuffisante.":
-        "yolov8m is the selected model. yolov8n is the fallback if hosting memory is insufficient.",
     "« Je ne peux pas juger » n'est pas « l'équipement manque ». Séparer les deux a supprimé 88 % des fausses alertes sur séquence réelle.":
         "« I cannot judge » is not « the equipment is missing ». Separating the two removed 88 % of false alerts on real footage.",
 
     # --- avertissements de lecture des corpus ---
-    "Ces images sont des **photographies composees** (banque Pexels). Le point chaud de la carte tombe au centre du cadre parce que c'est la qu'un photographe place son sujet — **c'est la regle des tiers, pas une zone a risque**. Sur ce corpus, la carte mesure une convention photographique.":
+    "Ces images sont des **photographies composées** (banque Pexels). Le "
+    "point chaud de la carte tombe au centre du cadre parce que c'est là "
+    "qu'un photographe place son sujet : **c'est la règle des tiers, pas "
+    "une zone à risque**. Sur ce corpus, la carte mesure une convention "
+    "photographique.":
         "These images are **composed photographs** (Pexels stock library). The hot spot falls at the centre of the frame because that is where a photographer places the subject — **this is the rule of thirds, not a risk zone**. On this corpus the map measures a photographic convention, nothing more.",
-    "Ces images sont des **captures de camera fixe**. Ici, la carte mesure ce qu'elle doit mesurer : le cadrage. Une concentration en haut signale des tetes coupees, une concentration diffuse et faible signale des personnes trop lointaines.":
+    "Ces images sont des **captures de caméra fixe**. Ici, la carte mesure "
+    "ce qu'elle doit mesurer : le cadrage. Une concentration en haut "
+    "signale des têtes coupées, une concentration diffuse et faible signale"
+    " des personnes trop lointaines.":
         "These images are **fixed-camera captures**. Here the map measures what it should: framing. A concentration at the top indicates heads cut off by the frame; a faint, spread-out concentration indicates people too far away.",
 
 
     # --- panneau des quatre EPI ---
-    "Les quatre equipements du sujet":
+    "Les quatre équipements du sujet":
         "The four items of equipment",
-    "Equipement":
+    "Équipement":
         "Equipment",
     "Seuil calibré":
         "Calibrated threshold",
@@ -201,8 +196,6 @@ TRADUCTIONS = {
         "Above threshold",
     "Part des personnes":
         "Share of people",
-    "Déclenche une alerte":
-        "Raises an alert",
     "oui":
         "yes",
     "non":
@@ -239,26 +232,144 @@ TRADUCTIONS = {
         "User guide",
 
 
-    # --- selecteur de modele et origine des seuils (D-051) ---
-    "Aucun poids de modele trouve dans le dossier models.":
-        "No model weights found in the models folder.",
-    "**Seuils calibres par classe** — mesures, non choisis.":
+    # --- modele affiche et origine des seuils (D-051) ---
+    "**Seuils calibrés par classe** : mesurés, non choisis.":
         "**Per-class calibrated thresholds** — measured, not chosen.",
-    "**Seuils par defaut** — ce modele n'a pas ete calibre. Valeurs de repli, non mesurees.":
+    "**Seuils par défaut** : ce modèle n'a pas été calibré. Valeurs de "
+    "repli, non mesurées.":
         "**Default thresholds** — this model was not calibrated. Fallback values, not measured.",
-    "La detection ci-dessous est rejouee avec %s, alors que le corpus a ete produit par %s. Les boites peuvent differer des confiances enregistrees a droite.":
+    "La détection ci-dessous est rejouée avec %s, alors que le corpus a été"
+    " produit par %s. Les boîtes peuvent différer des confiances "
+    "enregistrées à droite.":
         "The detection below is replayed with %s, whereas the corpus was produced by %s. Boxes may differ from the confidence scores recorded on the right.",
-    "Modele selectionne : %s. Les chiffres de cette page ont ete calcules hors ligne avec %s et ne sont pas recalcules. Le choix du modele n'agit que sur les onglets Image et Video, et sur la descente au cas.":
-        "Selected model: %s. The figures on this page were computed offline with %s and are not recalculated. The model choice only affects the Image and Video tabs, and the drill-down.",
+    # Reformule le 02/09 : le selecteur de modele n'existe plus, l'ecart ne
+    # peut plus venir d'un choix, seulement du repli automatique.
+    "Le modèle actif est %s, alors que les chiffres de cette page ont été "
+    "calculés hors ligne avec %s. Ils ne sont pas recalculés. Seuls les "
+    "onglets Image et Vidéo, et la descente au cas, tournent avec le modèle "
+    "actif.":
+        "The active model is %s, whereas the figures on this page were "
+        "computed offline with %s. They are not recalculated. Only the Image "
+        "and Video tabs, and the drill-down, run with the active model.",
 
 
     # --- repli automatique de modele (D-052) ---
-    "Repli automatique sur %s : le modele retenu n'a pas pu etre charge. Les resultats sont ceux d'un modele plus leger et moins precis.":
+    "Repli automatique sur %s : le modèle retenu n'a pas pu être chargé. "
+    "Les résultats sont ceux d'un modèle plus léger et moins précis.":
         "Automatic fallback to %s: the selected model could not be loaded. These results come from a lighter, less accurate model.",
     "Motif technique":
         "Technical reason",
-    "Modele retenu apres comparaison de six architectures a budget de calcul egal.":
+    "Modèle retenu après comparaison de six architectures à budget de "
+    "calcul égal.":
         "Model retained after comparing six architectures at equal compute budget.",
+
+    "**Légende.** Une boîte par personne, et elle porte le **verdict "
+    "d'alerte**, pas la liste des équipements : celle-ci est dans le tableau "
+    "ci-dessous, avec les confiances des quatre. La couleur ne porte jamais "
+    "l'information seule, chaque boîte affiche aussi un symbole.":
+        "**Key.** One box per person, and it carries the **alert verdict**, "
+        "not the list of equipment: that is in the table below, with the "
+        "confidence scores of all four. Colour never carries the information "
+        "alone, every box also shows a symbol.",
+    # Une ligne par etat, et non une phrase a puces separees par des points
+    # medians : dans une colonne etroite, la phrase se replie n'importe ou et
+    # coupe un symbole de son libelle.
+    "`[OK]` conforme sur le périmètre surveillé  \n"
+    "`[!]` un équipement du périmètre n'est pas détecté  \n"
+    "`[?]` tête hors champ, verdict impossible  \n"
+    "`[-]` trop loin pour être jugée":
+        "`[OK]` compliant on the monitored perimeter  \n"
+        "`[!]` one item of the perimeter is not detected  \n"
+        "`[?]` head out of frame, verdict impossible  \n"
+        "`[-]` too far away to be judged",
+    "Le périmètre surveillé se règle dans le panneau **Périmètre d'alerte** "
+    "du tableau de bord. Par défaut le casque seul, décision D-038, avec le "
+    "coût affiché à côté de chaque case.":
+        "The monitored perimeter is set in the **Alert perimeter** panel of "
+        "the dashboard. Helmet only by default, decision D-038, with the "
+        "cost shown next to each box.",
+
+    # --- panneau de la descente au cas, passe en bilingue le 02/09 ---
+    "Hauteur": "Height",
+    "Position": "Position",
+    "%.1f %% du champ": "%.1f %% of the frame",
+
+    # --- etiquettes des boites, perimetre reglable (02/09, D-048) ---
+    # L'ancienne etiquette disait « casque detecte ». Elle nommait un
+    # equipement la ou la boite porte un verdict, ce qui faisait conclure
+    # que le systeme ne traitait que le casque.
+    "conforme": "compliant",
+    "périmètre": "perimeter",
+    "EPI": "PPE",
+    # Une phrase par classe : le participe s'accorde en francais, pas en
+    # anglais. Composer « %s non detecte » donnerait « lunettes non detecte ».
+    "casque non détecté": "helmet not detected",
+    "gilet non détecté": "hi-vis vest not detected",
+    "lunettes non détectées": "eye protection not detected",
+    "gants non détectés": "gloves not detected",
+    "EPI non détectés": "PPE items not detected",
+    "aucun équipement surveillé": "no equipment monitored",
+
+    # --- messages de non-jugeabilite, passes en gabarit a trous (02/09) ---
+    # Ils etaient ecrits en f-string, donc jamais traduits : la chaine
+    # changeait avec le nombre et ne pouvait pas servir de cle.
+    "%d personne(s) ont la tête hors du champ : le casque n'est pas dans "
+    "l'image, aucun verdict n'est rendu. **Rehausser la caméra** corrigerait "
+    "ces cas.":
+        "%d person(s) have their head out of the frame: the helmet is not in "
+        "the image, so no verdict is given. **Raising the camera** would fix "
+        "these cases.",
+    "%d personne(s) occupent moins de %.0f %% de la hauteur d'image : trop "
+    "éloignées pour que leur équipement soit jugeable. Affichées, jamais "
+    "alertées.":
+        "%d person(s) take up less than %.0f %% of the image height: too far "
+        "away for their equipment to be judged. Shown, never alerted on.",
+
+    # --- decision en video, jamais traduite jusqu'ici ---
+    "**Décision en vidéo**":
+        "**Video decision**",
+
+    # --- bandeau des filtres et filtre par zone (02/09) ---
+    # Les fragments courts ci-dessous sont assembles dans `bandeau_filtres`.
+    # Ils sont traduits separement plutot qu'en une phrase unique parce que
+    # les nombres qui les separent viennent des donnees : une phrase entiere
+    # aurait fige l'ordre des mots, or l'anglais ne place pas « sur » au
+    # meme endroit que « of ».
+    "Filtres actifs":
+        "Active filters",
+    "barre latérale, à gauche":
+        "sidebar, on the left",
+    "caméras":
+        "cameras",
+    "zones":
+        "zones",
+    "états":
+        "states",
+    "du":
+        "from",
+    "Sélection :":
+        "Selection:",
+    "personnes sur":
+        "people out of",
+    "au total":
+        "in total",
+    "de la sélection":
+        "of the selection",
+    "Les six sections ci-dessous se recalculent ensemble.":
+        "The six sections below all recompute together.",
+    "Zone du chantier":
+        "Site zone",
+    "Une caméra couvre ici une zone et une seule : ces deux filtres sont deux entrées vers la même sélection, l'une pour l'exploitant technique, l'autre pour le chef de chantier. Les croiser sur des valeurs qui ne se correspondent pas donne un résultat vide, et c'est normal.":
+        "Here each camera covers exactly one zone: these two filters are two "
+        "ways into the same selection, one for the technical operator, one "
+        "for the site manager. Crossing them on values that do not match "
+        "returns an empty result, and that is expected.",
+
+    # --- carte du champ, version interactive (02/09) ---
+    "zone du champ":
+        "area of the frame",
+    "alertes cartographiées. Survole une case pour lire sa position et son compte.":
+        "alerts mapped. Hover a cell to read its position and its count.",
 
 }
 

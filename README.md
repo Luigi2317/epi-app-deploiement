@@ -28,9 +28,14 @@ manque*.
 
 ## Modeles
 
-`yolov8m` est le modele retenu. `yolov8n` est le repli si la memoire de
-l'hebergement est insuffisante — huit fois plus leger, moins precis. Le
-selecteur est dans le panneau de gauche.
+`yolov8m` est le modele retenu, apres comparaison de six architectures a
+budget de calcul egal. Ce n'est pas un reglage, c'est un resultat : le
+panneau de gauche l'AFFICHE, il ne le propose pas au choix (D-052).
+
+`yolov8n` est un repli automatique, huit fois plus leger et moins precis.
+Il ne se declenche que si yolov8m ne peut pas etre charge, faute de memoire
+sur l'hebergement. L'ecran le signale alors, avec le motif technique : une
+degradation silencieuse serait pire qu'une panne.
 
 Les seuils sont **calibres par classe** sur les donnees de validation, et
 non choisis a la main.

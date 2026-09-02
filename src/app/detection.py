@@ -193,6 +193,30 @@ class PersonneVue:
         """
         return self.alertable and not self.verdicts.get("helmet", False)
 
+    def manques(self, perimetre: set[str]) -> list[str]:
+        """
+        Les equipements du PERIMETRE que cette personne n'a pas.
+
+        Generalisation de `manque_casque` a un perimetre reglable (D-048).
+        `manque_casque` reste la propriete utilisee par le corpus deja
+        calcule et par les compteurs : le perimetre par defaut est le casque
+        seul, donc les deux coincident tant que l'exploitant ne touche rien.
+
+        La condition `alertable` est la meme, et pour la meme raison : une
+        personne trop loin ou dont la tete sort du cadre ne « manque » de
+        rien, on n'en sait rien. Une liste vide signifie donc deux choses
+        differentes selon `alertable`, et l'appelant doit tester le statut
+        AVANT d'interpreter le resultat.
+
+        Ordre stable : l'ordre de `perimetre` est celui d'un ensemble, donc
+        imprevisible. On trie, sinon le libelle affiche changerait d'un
+        rendu a l'autre sans qu'aucune donnee ait bouge.
+        """
+        if not self.alertable:
+            return []
+        return sorted(c for c in perimetre
+                      if not self.verdicts.get(c, False))
+
     def libelle(self) -> str:
         """Formulation prudente : une absence de detection, pas un jugement."""
         if self.statut is Statut.HORS_PERIMETRE:

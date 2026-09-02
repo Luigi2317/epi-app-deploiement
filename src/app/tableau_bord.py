@@ -53,10 +53,14 @@ DOSSIER = RACINE / "resultats" / "tableau_de_bord"
 EVENEMENTS = DOSSIER / "evenements.csv"
 
 # Le corpus a ete calcule UNE FOIS, hors ligne, par ce modele
-# (`corpus.py --modele yolov8m`). Changer de modele dans le panneau de
-# gauche ne le recalcule pas : les chiffres agreges restent ceux-ci. Le
-# selecteur n'agit que sur ce qui est analyse EN DIRECT — onglets Image et
-# Video, et descente au cas.
+# (`corpus.py --modele yolov8m`). Les chiffres agreges de cette page en
+# viennent et ne sont jamais recalcules a l'affichage.
+#
+# Le panneau de gauche n'offre plus de choix de modele : yolov8m est le
+# resultat de la comparaison a budget egal, pas un reglage. Seul le repli
+# automatique peut faire tourner autre chose, et seulement sur ce qui est
+# analyse EN DIRECT : onglets Image et Video, et descente au cas. L'ecart
+# est alors signale en tete de page.
 MODELE_DU_CORPUS = "yolov8m"
 
 # Chaque corpus dit ce qu'il est. La carte du champ ne signifie pas la meme
@@ -66,23 +70,24 @@ MODELE_DU_CORPUS = "yolov8m"
 # photographique pour une zone a risque.
 CORPUS = {
     "evenements": {
-        "titre": "Validation SH17 — photographies de stock",
+        "titre": "Validation SH17, photographies de stock",
         "nature": "photo",
         "avertissement":
-            "Ces images sont des **photographies composees** (banque Pexels). "
-            "Le point chaud de la carte tombe au centre du cadre parce que "
-            "c'est la qu'un photographe place son sujet — **c'est la regle "
-            "des tiers, pas une zone a risque**. Sur ce corpus, la carte "
-            "mesure une convention photographique.",
+            "Ces images sont des **photographies composées** (banque "
+            "Pexels). Le point chaud de la carte tombe au centre du cadre "
+            "parce que c'est là qu'un photographe place son sujet : **c'est"
+            " la règle des tiers, pas une zone à risque**. Sur ce corpus, "
+            "la carte mesure une convention photographique.",
     },
     "flux_camera": {
-        "titre": "Flux de camera — sequences de chantier reel",
+        "titre": "Flux de caméra, séquences de chantier réel",
         "nature": "camera",
         "avertissement":
-            "Ces images sont des **captures de camera fixe**. Ici, la carte "
-            "mesure ce qu'elle doit mesurer : le cadrage. Une concentration "
-            "en haut signale des tetes coupees, une concentration diffuse et "
-            "faible signale des personnes trop lointaines.",
+            "Ces images sont des **captures de caméra fixe**. Ici, la carte"
+            " mesure ce qu'elle doit mesurer : le cadrage. Une "
+            "concentration en haut signale des têtes coupées, une "
+            "concentration diffuse et faible signale des personnes trop "
+            "lointaines.",
     },
 }
 
@@ -108,6 +113,32 @@ def etiquette(statut: str) -> str:
     return t(ETATS.get(statut, statut))
 
 
+def perimetre_actif() -> set[str]:
+    """
+    Les equipements coches dans le panneau « Perimetre d'alerte ».
+
+    Pourquoi lire `session_state` et non une variable
+    -------------------------------------------------
+    Les cases vivent dans `quatre_epi()`, sur l'onglet Tableau de bord, et
+    le resultat doit servir dans `annoter()`, sur l'onglet Image. Passer la
+    valeur d'une fonction a l'autre supposerait de connaitre leur ordre
+    d'execution. Streamlit rejoue tout le script a chaque interaction, et
+    cet ordre n'est pas garanti.
+
+    Les cles des widgets, elles, survivent au rejeu et sont lisibles de
+    partout. C'est le seul etat partage de l'application, et il est en
+    lecture seule hors de `quatre_epi()`.
+
+    Le defaut reste D-038, le casque seul : un exploitant qui ne touche a
+    rien obtient exactement le comportement mesure et documente.
+    """
+    from src.app.detection import PERIMETRE_DEFAUT
+
+    return {classe for classe in SURVEILLES
+            if st.session_state.get(f"perimetre_{classe}",
+                                    classe in PERIMETRE_DEFAUT)}
+
+
 @st.cache_data(show_spinner="Lecture du corpus…")
 def charger(chemin: str, signature: float) -> pd.DataFrame:
     """
@@ -120,6 +151,44 @@ def charger(chemin: str, signature: float) -> pd.DataFrame:
     # Aucune traduction ici : cette table est mise en cache, et un texte
     # traduit y resterait fige dans la langue du premier chargement.
     return donnees
+
+
+def bandeau_filtres(donnees: pd.DataFrame, filtre: pd.DataFrame,
+                    cameras: list, zones: list, etats: list,
+                    debut, fin) -> None:
+    """
+    Dire a l'ecran que les filtres existent, ou ils sont, et ce qu'ils font.
+
+    Pourquoi ce bandeau
+    -------------------
+    Les quatre filtres vivent dans la barre laterale, et ils commandent les
+    SIX sections d'un seul coup. Rien ne le disait. Un visiteur qui les
+    apercoit peut les prendre pour des reglages locaux, et un visiteur dont
+    la barre est repliee ne les voit pas du tout.
+
+    Le bandeau affiche donc l'etat courant de la selection ET son effet sur
+    le nombre de lignes retenues. Bouger un filtre change le chiffre sous
+    les yeux : c'est la demonstration la plus courte que le croisement
+    fonctionne.
+    """
+    total, retenu = len(donnees), len(filtre)
+    morceaux = [
+        "**%d/%d** %s" % (len(cameras), len(donnees["camera"].unique()),
+                          t("caméras")),
+        "**%d/%d** %s" % (len(zones), len(donnees["zone"].unique()),
+                          t("zones")),
+        "**%d/%d** %s" % (len(etats), len(ETATS), t("états")),
+    ]
+    if debut != fin:
+        morceaux.append("%s **%s → %s**" % (t("du"), debut, fin))
+    part = retenu / total if total else 0.0
+    st.markdown(
+        "🎛 **%s** (%s) : %s  \n%s **%s** %s **%s** %s (%.0f %%). %s"
+        % (t("Filtres actifs"), t("barre latérale, à gauche"),
+           " · ".join(morceaux),
+           t("Sélection :"), f"{retenu:,}".replace(",", " "), t("personnes sur"),
+           f"{total:,}".replace(",", " "), t("au total"), part * 100,
+           t("Les six sections ci-dessous se recalculent ensemble.")))
 
 
 def bandeau_declaration() -> None:
@@ -146,8 +215,13 @@ def indicateurs(donnees: pd.DataFrame) -> None:
     haut[0].metric(t("Personnes vues"), f"{len(donnees):,}".replace(",", " "))
     haut[1].metric(t("Surveillées"), f"{n:,}".replace(",", " "),
                    help="assez grandes, et tête dans le champ")
+    # « de la selection » et non « du total » : `donnees` est la table DEJA
+    # filtree. Avec les filtres grands ouverts les deux formulations disent
+    # la meme chose, mais des qu'une zone est isolee le denominateur devient
+    # celui de la selection. Ecrire « du total » y affichait un pourcentage
+    # juste sous une phrase fausse.
     haut[2].metric(t("Non jugeables"), f"{non_jugeables:,}".replace(",", " "),
-                   f"{non_jugeables / len(donnees):.0%} du total"
+                   f"{non_jugeables / len(donnees):.0%} " + t("de la sélection")
                    if len(donnees) else None, delta_color="off")
     bas = st.columns(2)
     bas[0].metric(t("Taux de détection du casque"),
@@ -180,7 +254,7 @@ def quatre_epi(donnees: pd.DataFrame) -> None:
     from src.app.detection import (PERIMETRE_DEFAUT, SELON_LA_TACHE,
                                    charger_seuils)
 
-    st.subheader(t("Les quatre equipements du sujet"))
+    st.subheader(t("Les quatre équipements du sujet"))
     surveillees = donnees[donnees["statut"] == "surveillee"]
     if surveillees.empty:
         st.info(t("Aucune donnée."))
@@ -196,7 +270,7 @@ def quatre_epi(donnees: pd.DataFrame) -> None:
         rattaches = int((surveillees[colonne] > 0).sum())
         retenus = int((surveillees[colonne] >= seuil).sum())
         lignes.append({
-            t("Equipement"): t(nom),
+            t("Équipement"): t(nom),
             t("Seuil calibré"): f"{seuil:.3f}",
             t("Rattachés"): rattaches,
             t("Au-dessus du seuil"): retenus,
@@ -251,7 +325,7 @@ def quatre_epi(donnees: pd.DataFrame) -> None:
             "non-conformité, mais une exigence qui ne s'applique pas là."))
 
     graphe = pd.DataFrame({
-        t("équipement"): [l[t("Equipement")] for l in lignes],
+        t("équipement"): [l[t("Équipement")] for l in lignes],
         t("personnes"): [l[t("Au-dessus du seuil")] for l in lignes],
     })
     st.bar_chart(graphe, x=t("équipement"), y=t("personnes"), height=220)
@@ -292,7 +366,7 @@ def carte_du_champ(donnees: pd.DataFrame) -> None:
     C'est du reel : `x_relatif` et `y_relatif` sont la position mesuree de
     chaque personne dans l'image, en fraction de largeur et de hauteur.
     """
-    import matplotlib.pyplot as plt
+    import altair as alt
 
     st.subheader(t("Où, dans le champ, les alertes se produisent-elles ?"))
     st.caption(t("**Donnée réelle** — position mesurée de chaque personne dans "
@@ -311,19 +385,55 @@ def carte_du_champ(donnees: pd.DataFrame) -> None:
         st.info(t("Aucune alerte à cartographier."))
         return
 
-    grille, _, _ = np.histogram2d(
+    # Le comptage reste identique : 12 bandes en hauteur, 16 en largeur.
+    # Seul le rendu change. L'ancienne version passait par matplotlib, donc
+    # par une IMAGE FIXE : on voyait la forme du point chaud sans jamais
+    # pouvoir en lire la valeur. Ici chaque case est survolable et annonce
+    # sa position dans le champ et son nombre d'alertes.
+    #
+    # L'interpolation bilineaire de matplotlib est perdue au passage, et
+    # c'est un gain : elle lissait douze bandes en un degrade continu, ce
+    # qui laissait croire a une mesure plus fine que les donnees.
+    grille, bords_y, bords_x = np.histogram2d(
         alertes["y_relatif"], alertes["x_relatif"],
         bins=[12, 16], range=[[0, 1], [0, 1]])
 
-    figure, axes = plt.subplots(figsize=(7, 3.6), layout="constrained")
-    image = axes.imshow(grille, cmap="inferno", aspect="auto",
-                        extent=[0, 1, 1, 0], interpolation="bilinear")
-    axes.set_xlabel(t("largeur du champ"))
-    axes.set_ylabel(t("hauteur du champ"))
-    axes.set_title(f"{len(alertes)} alertes")
-    figure.colorbar(image, ax=axes, label=t("alertes"))
-    st.pyplot(figure, use_container_width=True)
-    plt.close(figure)
+    cases = pd.DataFrame([
+        {"x1": bords_x[j], "x2": bords_x[j + 1],
+         "y1": bords_y[i], "y2": bords_y[i + 1],
+         "alertes": int(grille[i, j]),
+         "bande": "%.0f à %.0f %% × %.0f à %.0f %%" % (
+             bords_x[j] * 100, bords_x[j + 1] * 100,
+             bords_y[i] * 100, bords_y[i + 1] * 100)}
+        for i in range(grille.shape[0]) for j in range(grille.shape[1])])
+
+    # `inferno` est repris tel quel de l'ancienne carte : c'est une echelle
+    # perceptuellement uniforme, donc lisible en protanopie comme en
+    # deutéranopie, et les figures du rapport restent comparables.
+    carte = (
+        alt.Chart(cases, height=260)
+        .mark_rect()
+        .encode(
+            x=alt.X("x1:Q", title=t("largeur du champ"),
+                    scale=alt.Scale(domain=[0, 1], nice=False),
+                    axis=alt.Axis(format="%")),
+            x2="x2:Q",
+            # Repere image : l'origine est EN HAUT a gauche, comme les
+            # coordonnees YOLO. Sans `reverse`, la carte serait retournee
+            # et « le tiers superieur » designerait le bas du cadre.
+            y=alt.Y("y1:Q", title=t("hauteur du champ"),
+                    scale=alt.Scale(domain=[0, 1], nice=False, reverse=True),
+                    axis=alt.Axis(format="%")),
+            y2="y2:Q",
+            color=alt.Color("alertes:Q", title=t("alertes"),
+                            scale=alt.Scale(scheme="inferno")),
+            tooltip=[alt.Tooltip("bande:N", title=t("zone du champ")),
+                     alt.Tooltip("alertes:Q", title=t("alertes"))],
+        )
+    )
+    st.altair_chart(carte, use_container_width=True)
+    st.caption("%d %s" % (len(alertes), t("alertes cartographiées. "
+               "Survole une case pour lire sa position et son compte.")))
 
     # --- la lecture operationnelle, chiffree ------------------------------
     haut = float((alertes["y_relatif"] < 0.33).mean())
@@ -364,10 +474,15 @@ def detail(donnees: pd.DataFrame, nom_modele: str = MODELE_DU_CORPUS) -> None:
     """
     Le drill-down : d'un chiffre agrege au cas individuel (C3.2-3).
 
-    Le modele est passe en argument. Avant le 25/08 la descente au cas
-    construisait `Detecteur()` sans argument, donc TOUJOURS yolov8m : on
-    pouvait selectionner yolov8n et voir s'afficher les boites d'un autre
-    modele. Le selecteur mentait sur ce qu'il commandait.
+    Le modele est passe en argument, et non reconstruit ici. Historique de
+    ce choix : jusqu'au 25/08, la descente au cas construisait `Detecteur()`
+    sans argument, donc TOUJOURS yolov8m, alors qu'un selecteur permettait
+    encore de demander yolov8n. L'ecran affichait les boites d'un modele et
+    le nom d'un autre.
+
+    Le selecteur a depuis ete retire, mais le passage par argument est
+    conserve : le repli automatique peut encore faire tourner yolov8n, et
+    l'image montree doit venir du modele qui tourne vraiment.
     """
     st.subheader(t("Descendre jusqu'au cas"))
     st.caption(t("Choisis une alerte : le système montre l'image et explique "
@@ -387,12 +502,17 @@ def detail(donnees: pd.DataFrame, nom_modele: str = MODELE_DU_CORPUS) -> None:
 
     gauche, droite = st.columns([2, 1], gap="medium")
     with droite:
-        st.markdown(f"**Caméra** {ligne['camera']}  \n"
-                    f"**Zone** {ligne['zone']}  \n"
-                    f"**Image** `{ligne['image']}`  \n"
-                    f"**Position** {ligne['x_relatif']:.2f} × "
-                    f"{ligne['y_relatif']:.2f}  \n"
-                    f"**Hauteur** {ligne['hauteur_relative']:.1%} du champ")
+        # Les libelles passent par `t()`, les valeurs non : ce sont des
+        # donnees. Une f-string melangeait les deux et laissait ce panneau
+        # en francais dans l'interface anglaise, seul ecran a l'etre.
+        st.markdown("**%s** %s  \n**%s** %s  \n**%s** `%s`  \n"
+                    "**%s** %.2f × %.2f  \n**%s** %s"
+                    % (t("Caméra"), ligne["camera"],
+                       t("Zone"), ligne["zone"],
+                       t("Image"), ligne["image"],
+                       t("Position"), ligne["x_relatif"], ligne["y_relatif"],
+                       t("Hauteur"),
+                       t("%.1f %% du champ") % (ligne["hauteur_relative"] * 100)))
         st.markdown(t("**Confiances mesurées**"))
         for classe, nom in SURVEILLES.items():
             valeur = float(ligne.get(f"conf_{classe}", 0.0))
@@ -427,14 +547,16 @@ def detail(donnees: pd.DataFrame, nom_modele: str = MODELE_DU_CORPUS) -> None:
             st.session_state[cle_cache] = detecteur
 
         if nom_modele != MODELE_DU_CORPUS:
-            st.info(t("La detection ci-dessous est rejouee avec %s, alors que "
-                      "le corpus a ete produit par %s. Les boites peuvent "
-                      "differer des confiances enregistrees a droite.")
+            st.info(t("La détection ci-dessous est rejouée avec %s, alors "
+                      "que le corpus a été produit par %s. Les boîtes "
+                      "peuvent différer des confiances enregistrées à "
+                      "droite.")
                     % (nom_modele, MODELE_DU_CORPUS))
 
         image = cv2.imread(str(chemin))
         resultat = detecteur.analyser_image(image)
-        afficher_image(annoter(image, resultat)[:, :, ::-1], chemin.name)
+        afficher_image(annoter(image, resultat, perimetre_actif())[:, :, ::-1],
+                       chemin.name)
 
     st.code(f"python src/app/expliquer.py {chemin.relative_to(RACINE)}",
             language="bash")
@@ -467,8 +589,34 @@ def page(nom_modele: str = MODELE_DU_CORPUS) -> None:
     with st.sidebar:
         st.divider()
         st.header(t("Filtres du tableau de bord"))
+        # Le §4.1.2 du sujet demande des filtres « par type d'EPI, par zone
+        # du chantier, par periode ». La zone existait dans les donnees et
+        # s'affichait dans la descente au cas, mais on ne pouvait pas
+        # filtrer dessus. Or c'est la maille du chef de chantier : il pense
+        # « zone de levage », pas « CAM-03 ».
+        #
+        # MAIS les deux filtres ne sont pas independants : dans ce corpus,
+        # une camera couvre une zone et une seule. Les cacher l'un a l'autre
+        # produirait une intersection vide des qu'on croise CAM-01 avec une
+        # autre zone que la sienne, sans qu'on comprenne pourquoi. On affiche
+        # donc l'appariement dans le libelle, et on le declare sous les
+        # filtres. Deux entrees vers la meme selection, une par metier.
+        appariement = (donnees.groupby("camera")["zone"]
+                       .agg(lambda z: sorted(set(z))).to_dict())
         toutes = sorted(donnees["camera"].unique())
-        cameras = st.multiselect(t("Caméra"), toutes, default=toutes)
+        cameras = st.multiselect(
+            t("Caméra"), toutes, default=toutes,
+            format_func=lambda c: "%s · %s" % (c, ", ".join(appariement[c])))
+        zones_toutes = sorted(donnees["zone"].unique())
+        zones = st.multiselect(t("Zone du chantier"), zones_toutes,
+                               default=zones_toutes)
+        if all(len(z) == 1 for z in appariement.values()):
+            st.caption(t("Une caméra couvre ici une zone et une seule : ces "
+                         "deux filtres sont deux entrées vers la même "
+                         "sélection, l'une pour l'exploitant technique, "
+                         "l'autre pour le chef de chantier. Les croiser sur "
+                         "des valeurs qui ne se correspondent pas donne un "
+                         "résultat vide, et c'est normal."))
         # Les options sont les VALEURS de donnees ; seul l'affichage est
         # traduit, par `format_func`. C'est ce qui permet de changer de
         # langue sans casser le filtre.
@@ -483,17 +631,25 @@ def page(nom_modele: str = MODELE_DU_CORPUS) -> None:
             debut = fin = jours[0]
 
     filtre = donnees[donnees["camera"].isin(cameras)
+                     & donnees["zone"].isin(zones)
                      & donnees["statut"].isin(etats)
                      & (donnees["jour"] >= debut) & (donnees["jour"] <= fin)]
+    bandeau_filtres(donnees, filtre, cameras, zones, etats, debut, fin)
     if filtre.empty:
         st.warning(t("Aucun événement ne correspond aux filtres."))
         return
 
+    # Ce cas n'est plus atteignable par un choix de l'utilisateur : le
+    # selecteur de modele a ete retire, le modele est desormais affiche et
+    # non reglable. Il reste atteignable par le REPLI AUTOMATIQUE, quand
+    # yolov8m n'a pas pu etre charge. Le message est donc reformule : il ne
+    # parle plus d'un choix, il constate un ecart.
     if nom_modele != MODELE_DU_CORPUS:
-        st.warning(t("Modele selectionne : %s. Les chiffres de cette page ont "
-                     "ete calcules hors ligne avec %s et ne sont pas "
-                     "recalcules. Le choix du modele n'agit que sur les "
-                     "onglets Image et Video, et sur la descente au cas.")
+        st.warning(t("Le modèle actif est %s, alors que les chiffres de "
+                     "cette page ont été calculés hors ligne avec %s. Ils "
+                     "ne sont pas recalculés. Seuls les onglets Image et "
+                     "Vidéo, et la descente au cas, tournent avec le modèle "
+                     "actif.")
                    % (nom_modele, MODELE_DU_CORPUS))
 
     indicateurs(filtre)

@@ -25,9 +25,30 @@
 
 numpy==1.26.4
 pandas==2.2.3
+
+# Altair dessine la carte de chaleur, en remplacement de matplotlib : une
+# image fixe ne repond pas a « graphiques interactifs » (C3.2-2).
+#
+# Streamlit l'installe de toute facon, altair etant l'une de ses dependances.
+# On le declare quand meme, parce que `tableau_bord.py` fait `import altair`
+# EN DIRECT. Dependre implicitement de la liste des dependances d'un autre
+# paquet, c'est accepter qu'une de ses mises a jour casse l'application sans
+# qu'aucun fichier du projet ait change.
+altair==5.5.0
+
+# Matplotlib ne trace plus rien depuis que la carte est passee a Altair. Il
+# reste pour une seule raison, et elle n'est pas devinable : il fournit la
+# police DejaVuSans.ttf avec laquelle Pillow ecrit les etiquettes des boites.
+# Sans lui, `police()` retourne None et les libelles retombent en ASCII,
+# « perimetre » au lieu de « perimetre ». NE PAS RETIRER comme inutilise.
 matplotlib==3.9.2
-opencv-python==4.10.0.84
+
+# Pillow dessine le texte des etiquettes. `cv2.putText` ne sait ecrire que
+# de l'ASCII : ses polices Hershey s'arretent au 127e caractere, et tout
+# accent y sort en « ? ».
 Pillow==10.4.0
+
+opencv-python==4.10.0.84
 pyyaml==6.0.2
 streamlit==1.39.0
 torch==2.4.1
