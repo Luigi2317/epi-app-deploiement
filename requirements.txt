@@ -54,3 +54,10 @@ streamlit==1.39.0
 torch==2.4.1
 torchvision==0.19.1
 ultralytics==8.3.9
+
+# Le suivi de personnes sur video (BoT-SORT) importe `lap` a la volee. Si
+# l'import echoue, ultralytics tente de l'installer lui-meme via pip, ce
+# qui marche en local mais pas sur Streamlit Cloud, dont l'environnement
+# est en lecture seule a l'execution. Sans cette ligne, l'onglet Video
+# plante au premier essai avec un ModuleNotFoundError.
+lap==0.5.13

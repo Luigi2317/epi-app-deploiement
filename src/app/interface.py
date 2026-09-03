@@ -449,7 +449,7 @@ def page_image() -> None:
     # une tablette en portrait comprime les nombres jusqu'a les tronquer.
     # Streamlit ne replie pas les colonnes tout seul.
     haut = st.columns(3)
-    haut[0].metric(t("Personnes vues"), chiffres[t("personnes")])
+    haut[0].metric(t("Personnes vues"), chiffres["personnes"])
     haut[1].metric(t("Surveillées"), chiffres["surveillees"])
     haut[2].metric(t("Non jugeables"),
                    chiffres["hors_perimetre"] + chiffres["tete_hors_champ"],
