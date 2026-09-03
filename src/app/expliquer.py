@@ -18,7 +18,7 @@ trois causes tres differentes :
        -> defaut de la regle metier, donc de notre code
 
 Les trois produisent le meme affichage. Sans cet outil, on choisit une
-explication au lieu de la constater — et c'est exactement l'erreur commise
+explication au lieu de la constater, et c'est exactement l'erreur commise
 le 20 aout sur les cellules vides d'un tableau, ou deux conclusions
 opposees ont ete tirees successivement de la meme donnee ambigue.
 
@@ -72,7 +72,7 @@ def expliquer(chemin: Path, part_haute: float = PART_HAUTE,
     personnes, equipements = detecteur._separer(sortie)
 
     hauteur, largeur = sortie.orig_shape
-    print(f"\n  {chemin.name} — {largeur} x {hauteur} px")
+    print(f"\n  {chemin.name}, {largeur} x {hauteur} px")
     print(f"  seuil de detection brute {detecteur.confiance_brute:.4f} · "
           f"part haute {part_haute:.0%}\n")
 
@@ -126,7 +126,7 @@ def expliquer(chemin: Path, part_haute: float = PART_HAUTE,
             autres = [i for _, i in sorted(contenants) if i != gagnant]
             print(f"          -> attribue a la personne #{gagnant}")
             if autres:
-                print(f"          (etait aussi dans les boites {autres} — "
+                print(f"          (etait aussi dans les boites {autres}, "
                       f"depart au haut de boite le plus proche)")
         elif refuses_hauteur:
             orphelins += 1

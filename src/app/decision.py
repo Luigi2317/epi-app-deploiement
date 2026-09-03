@@ -8,7 +8,7 @@ confiance. Il ne dit RIEN sur la conformite : c'est ce module qui decide.
 
 Deux defauts de la premiere version du systeme sont traites ici.
 
-DEFAUT 1 — LE VERDICT CLIGNOTAIT
+DEFAUT 1, LE VERDICT CLIGNOTAIT
     Un seuil unique transforme une confiance continue en decision binaire.
     Si la confiance oscille autour du seuil, le verdict oscille avec elle :
 
@@ -19,14 +19,14 @@ DEFAUT 1 — LE VERDICT CLIGNOTAIT
     Rien n'a bouge sur le chantier. A 25 images par seconde, cela produit
     une douzaine de basculements par seconde.
 
-DEFAUT 2 — LE VOLUME D'ALERTES EST INTENABLE
+DEFAUT 2 : LE VOLUME D'ALERTES EST INTENABLE
     Mesure du J10 : le scenario de deploiement produirait environ 8 400
     fausses alertes par heure, la norme EEMUA 191 en autorisant SIX.
     Il faut diviser par ~1 400.
 
 Les trois mecanismes, et ce que chacun apporte
 -----------------------------------------------
-1. HYSTERESIS — deux seuils au lieu d'un
+1. HYSTERESIS, deux seuils au lieu d'un
 
        au-dessus de HAUT  ->  l'equipement est considere present
        en dessous de BAS  ->  il est considere absent
@@ -39,18 +39,18 @@ Les trois mecanismes, et ce que chacun apporte
    L'ecart entre HAUT et BAS n'est pas choisi : il est DEDUIT du bruit
    reellement mesure sur la video (voir `mesure_clignotement.py`).
 
-2. CONFIRMATION TEMPORELLE — n'alerter qu'apres N images consecutives
+2. CONFIRMATION TEMPORELLE : n'alerter qu'apres N images consecutives
 
    Une fausse detection isolee ne franchit pas la barre. C'est le levier
    le plus efficace contre les fausses alertes.
 
    ATTENTION a l'argument facile : si les erreurs etaient INDEPENDANTES
    d'une image a l'autre, exiger N images consecutives diviserait le taux
-   par p^N. Elles ne le sont pas — deux images successives se ressemblent,
+   par p^N. Elles ne le sont pas, deux images successives se ressemblent,
    et une erreur tend a persister. Le gain reel est plus faible, et il doit
    etre MESURE, pas calcule.
 
-3. AGREGATION PAR EPISODE — une alerte par personne et par episode
+3. AGREGATION PAR EPISODE, une alerte par personne et par episode
 
    L'ouvrier n 3 sans casque pendant cinq minutes doit produire UNE alerte,
    pas 7 500. L'alerte se re-arme seulement apres un retour durable a la
@@ -89,7 +89,7 @@ class Reglages:
     quatre ecarts-types de la confiance d'une image a l'autre, de sorte
     qu'une fluctuation ordinaire ne puisse pas traverser la zone morte.
 
-    LES VALEURS CI-DESSOUS SONT MESUREES, PAS CHOISIES — 23 aout.
+    LES VALEURS CI-DESSOUS SONT MESUREES, PAS CHOISIES, 23 aout.
         seuil optimal J10 (F1 maximal, classe helmet) ...... 0,4653
         ecart-type du fremissement, mesure sur 72 s de video  0,0490
         zone morte = 4 x 0,0490 ............................ 0,196
@@ -104,7 +104,7 @@ class Reglages:
     seuil_haut: float = 0.563
     seuil_bas: float = 0.367
 
-    # FENETRE DE CONFIRMATION — fixee le 23 aout, apres mesure.
+    # FENETRE DE CONFIRMATION, fixee le 23 aout, apres mesure.
     #
     # Nombre d'images consecutives sans equipement avant de declencher.
     # La valeur par defaut correspond a DEUX SECONDES, a convertir selon la
@@ -123,7 +123,7 @@ class Reglages:
     # La video de reference ne contient que DEUX non-conformites reelles.
     # Choisir 5 s parce qu'il y produit 33 % reviendrait a ajuster un
     # parametre sur deux exemples : ce n'est pas un calibrage, c'est une
-    # coincidence. Deux secondes se justifie independamment des donnees —
+    # coincidence. Deux secondes se justifie independamment des donnees,
     # un ouvrier sans casque n'est pas un evenement fugace.
     #
     # LE PRIX, A ASSUMER
@@ -177,7 +177,7 @@ class MoteurDecision:
         {"identifiant": 3, "confiance_epi": 0.42}
 
     La confiance vaut 0 lorsque aucun equipement n'est associe a la
-    personne — une absence de detection est une confiance nulle, pas une
+    personne : une absence de detection est une confiance nulle, pas une
     donnee manquante.
     """
 
@@ -250,7 +250,7 @@ class MoteurDecision:
                     sum(etat.confiances) / len(etat.confiances), 4),
                 # Vocabulaire prudent : le systeme constate une absence de
                 # detection, il ne prononce pas une non-conformite (D-032).
-                "message": f"casque non detecte — personne {identifiant}",
+                "message": f"casque non detecte, personne {identifiant}",
             }
             self.journal.append(alerte)
             return alerte

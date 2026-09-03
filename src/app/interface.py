@@ -1,5 +1,5 @@
 """
-Interface Streamlit — detection d'EPI sur chantier.
+Interface Streamlit, detection d'EPI sur chantier.
 
 Ce que ce fichier contient, et ce qu'il ne contient pas
 -------------------------------------------------------
@@ -10,7 +10,7 @@ calcul de verdict : tout cela vit dans `detection.py`, `regles.py` et
     Si une decision se prend ici, elle est au mauvais endroit.
 
 C'est ce qui permet aux 56 tests de couvrir le comportement du systeme sans
-jamais lancer Streamlit — et au tableau de bord du J13 de se brancher sur la
+jamais lancer Streamlit, et au tableau de bord du J13 de se brancher sur la
 meme logique sans la reecrire.
 
 Lancement :
@@ -49,30 +49,30 @@ from src.app.regles import HAUTEUR_MINIMALE                 # noqa: E402
 from src.app import tableau_bord                           # noqa: E402
 
 # --------------------------------------------------------------------------
-# PALETTE ACCESSIBLE — revue le 26 aout.
+# PALETTE ACCESSIBLE, revue le 26 aout.
 #
 # La version precedente opposait ROUGE et VERT. C'est le pire choix
-# possible : la deuterananopie et la protanopie — les deux formes les plus
-# repandues de daltonisme, environ 8 % des hommes — rendent ces deux
+# possible : la deuterananopie et la protanopie, les deux formes les plus
+# repandues de daltonisme, environ 8 % des hommes, rendent ces deux
 # couleurs presque identiques. Un ouvrier signale et un ouvrier conforme
 # auraient porte la meme couleur pour une personne sur douze.
 #
 # Palette retenue : Okabe-Ito, concue pour rester distinguable sous les
 # trois formes de daltonisme. Bleu contre vermillon au lieu de vert contre
-# rouge — les deux se distinguent aussi bien en vision normale.
+# rouge, les deux se distinguent aussi bien en vision normale.
 #
 # ET SURTOUT : LA COULEUR NE PORTE JAMAIS L'INFORMATION SEULE.
 # Chaque boite affiche un symbole et un texte. Une capture d'ecran en noir
 # et blanc, un ecran mal regle ou un oeil daltonien lisent la meme chose.
 # --------------------------------------------------------------------------
-BLEU = (178, 114, 0)        # #0072B2 — casque detecte
-VERMILLON = (0, 94, 213)    # #D55E00 — casque non detecte, alerte possible
-JAUNE = (66, 228, 240)      # #F0E442 — tete hors champ, verdict impossible
+BLEU = (178, 114, 0)        # #0072B2, casque detecte
+VERMILLON = (0, 94, 213)    # #D55E00, casque non detecte, alerte possible
+JAUNE = (66, 228, 240)      # #F0E442, tete hors champ, verdict impossible
 #   Le jaune plutot que l ambre : verifie par simulation. Avec l ambre,
 #   la pire paire de la palette tombait a 46 sous tritanopie ; avec le
 #   jaune elle remonte a 89. Deux couleurs chaudes voisines se
 #   confondent, une claire et une saturee non.
-GRIS = (153, 153, 153)      # #999999 — hors perimetre, non juge
+GRIS = (153, 153, 153)      # #999999, hors perimetre, non juge
 
 # Le symbole double la couleur. C'est lui qui porte l'information quand la
 # couleur ne peut pas.
@@ -109,7 +109,7 @@ NON_DETECTE = {
 MODELE_RETENU = "yolov8m"
 
 # Le repli, et lui seul. Il ne s'active pas au choix de l'utilisateur mais
-# parce que le modele retenu n'a pas pu etre charge — typiquement faute de
+# parce que le modele retenu n'a pas pu etre charge, typiquement faute de
 # memoire sur un hebergement gratuit. Un responsable securite n'a aucun
 # element pour arbitrer entre deux architectures ; lui poser la question
 # revient a lui repasser une decision deja tranchee.
@@ -122,7 +122,7 @@ def obtenir_detecteur(nom_modele: str) -> Detecteur:
     Charge le modele, puis le PRECHAUFFE sur une image vide.
 
     Mesure du J12 : la premiere inference coute 2 061 ms, les suivantes
-    301 ms. Ce surcout n'est pas du calcul utile — c'est l'allocation des
+    301 ms. Ce surcout n'est pas du calcul utile : c'est l'allocation des
     tampons et la compilation des noyaux, payee une fois.
 
     Sans prechauffage, c'est le PREMIER UTILISATEUR qui l'encaisse, et il
@@ -167,7 +167,7 @@ def afficher_image(image, legende: str = "") -> None:
     `st.image` a change de parametre en cours de route : `use_column_width`
     jusqu'a Streamlit 1.39, `use_container_width` ensuite. Le poste de
     travail et la plateforme d'hebergement n'ont pas forcement la meme
-    version — on essaie donc le nom recent, puis l'ancien.
+    version : on essaie donc le nom recent, puis l'ancien.
     """
     try:
         st.image(image, caption=legende, use_container_width=True)
@@ -575,9 +575,9 @@ def page_video(reglages: Reglages) -> None:
     statistiques = getattr(detecteur, "derniere_statistique", {})
 
     colonnes = st.columns(3)
-    colonnes[0].metric(t("Personnes suivies"), statistiques.get("personnes_suivies", "—"))
+    colonnes[0].metric(t("Personnes suivies"), statistiques.get("personnes_suivies", ","))
     colonnes[1].metric(t("Basculements de verdict"),
-                       statistiques.get("basculements_de_verdict", "—"))
+                       statistiques.get("basculements_de_verdict", ","))
     colonnes[2].metric(t("Alertes"), len(journal))
 
     if journal:
@@ -628,13 +628,13 @@ l'observation est ponctuelle.
 ### Lire une image annotée
 
 Chaque personne détectée reçoit une boîte, un symbole et un texte. **La couleur
-ne porte jamais l'information seule** — une capture en noir et blanc reste
+ne porte jamais l'information seule** : une capture en noir et blanc reste
 lisible.
 
 | Symbole | Signification | Ce qu'il faut faire |
 |---|---|---|
 | `[OK]` | Casque détecté | rien |
-| `[!]` | Casque non détecté | **vérifier** — deux fois sur trois, l'ouvrier est en règle |
+| `[!]` | Casque non détecté | **vérifier** : deux fois sur trois, l'ouvrier est en règle |
 | `[?]` | Tête hors du champ | le système n'a pas regardé : **rehausser la caméra** |
 | `[-]` | Hors périmètre | personne trop éloignée pour être jugée |
 
@@ -645,16 +645,16 @@ lisible.
 
 ### Les chiffres du tableau de bord
 
-**Personnes vues** — tout ce que le détecteur a trouvé.
+**Personnes vues** : tout ce que le détecteur a trouvé.
 
-**Surveillées** — celles que le système peut effectivement juger : assez
+**Surveillées** : celles que le système peut effectivement juger : assez
 grandes, et tête dans le champ.
 
-**Taux de détection du casque** — la part des personnes surveillées chez qui un
+**Taux de détection du casque**, la part des personnes surveillées chez qui un
 casque a été retenu. *Ce n'est pas un taux de conformité* : le système atteste
 une présence, pas le respect d'une norme.
 
-**Non jugeables** — trop loin, ou tête coupée. **Un chiffre élevé ne signale pas
+**Non jugeables**, trop loin, ou tête coupée. **Un chiffre élevé ne signale pas
 une panne : il signale une caméra mal placée.**
 
 ---
@@ -665,8 +665,8 @@ Elle montre **où, dans l'image**, les alertes se produisent. Elle se lit ainsi 
 
 | Ce que tu vois | Ce que ça veut dire |
 |---|---|
-| Concentration **en haut** | têtes coupées par le bord — caméra trop basse ou trop proche |
-| Concentration **diffuse et faible** | personnes trop lointaines — champ trop large |
+| Concentration **en haut** | têtes coupées par le bord, caméra trop basse ou trop proche |
+| Concentration **diffuse et faible** | personnes trop lointaines, champ trop large |
 | Bande **horizontale** | caméra à hauteur d'homme : toutes les têtes s'alignent |
 | Point chaud **au centre** | sur des photographies composées, c'est la règle des tiers, **pas une zone à risque** |
 
@@ -754,12 +754,12 @@ observation is occasional.
 ### Reading an annotated image
 
 Every detected person gets a box, a symbol and a text label. **Colour never
-carries the information alone** — a black-and-white screenshot stays readable.
+carries the information alone** : a black-and-white screenshot stays readable.
 
 | Symbol | Meaning | What to do |
 |---|---|---|
 | `[OK]` | Helmet detected | nothing |
-| `[!]` | Helmet not detected | **check** — two times out of three the worker is compliant |
+| `[!]` | Helmet not detected | **check**, two times out of three the worker is compliant |
 | `[?]` | Head out of frame | the system did not look: **raise the camera** |
 | `[-]` | Out of range | person too far away to be judged |
 
@@ -770,15 +770,15 @@ carries the information alone** — a black-and-white screenshot stays readable.
 
 ### The dashboard figures
 
-**People seen** — everything the detector found.
+**People seen**, everything the detector found.
 
-**Monitored** — those the system can actually judge: large enough, head in frame.
+**Monitored**, those the system can actually judge: large enough, head in frame.
 
-**Helmet detection rate** — the share of monitored people with a helmet
+**Helmet detection rate** : the share of monitored people with a helmet
 retained. *This is not a compliance rate*: the system establishes presence, not
 conformity to a standard.
 
-**Cannot be judged** — too far, or head cut off. **A high figure does not signal
+**Cannot be judged**, too far, or head cut off. **A high figure does not signal
 a malfunction: it signals a badly placed camera.**
 
 ---
@@ -789,8 +789,8 @@ It shows **where in the frame** alerts occur:
 
 | What you see | What it means |
 |---|---|
-| Concentration **at the top** | heads cut off by the edge — camera too low or too close |
-| **Faint, spread out** | people too far away — field of view too wide |
+| Concentration **at the top** | heads cut off by the edge, camera too low or too close |
+| **Faint, spread out** | people too far away, field of view too wide |
 | **Horizontal band** | camera at eye level: every head lines up |
 | **Central hot spot** | on composed photographs this is the rule of thirds, **not a risk zone** |
 
@@ -861,7 +861,7 @@ def page_limites() -> None:
 
 # La page la plus importante de l'outil, et la seule que le sujet ne demande
 # pas. Un systeme de securite qui n'enonce pas ses limites laisse croire
-# qu'il n'en a pas — c'est le mode de defaillance le plus dangereux, parce
+# qu'il n'en a pas : c'est le mode de defaillance le plus dangereux, parce
 # qu'il est invisible.
 LIMITES = {
     "fr": """
@@ -894,7 +894,7 @@ d'alerter.** Une personne occupant moins de 20 % de la hauteur de l'image
 est trop eloignee pour qu'un casque soit visible. Une personne dont la tete
 sort par le haut du cadre n'a tout simplement pas ete regardee. Sur une
 sequence de chantier reel, ces deux situations expliquaient **94 % des
-fausses alertes** — et toutes deux relevent du **placement de la camera**,
+fausses alertes**, et toutes deux relevent du **placement de la camera**,
 non du modele.
 """,
     "en": """
@@ -926,7 +926,7 @@ removes most false alerts.
 an alert.** A person occupying less than 20 % of the image height is too far
 away for a helmet to be visible. A person whose head leaves the top of the
 frame simply has not been looked at. On real site footage, these two
-situations accounted for **94 % of false alerts** — and both stem from
+situations accounted for **94 % of false alerts**, and both stem from
 **camera placement**, not from the model.
 """,
 }
@@ -941,12 +941,12 @@ def main() -> None:
     # alors six sections figees et conclut qu'il n'y a pas d'interactivite.
     # Le repli reste possible, il est simplement demande a l'utilisateur au
     # lieu d'etre impose par la largeur.
-    st.set_page_config(page_title="Detection EPI — chantier",
+    st.set_page_config(page_title="Detection EPI : chantier",
                        page_icon="🦺", layout="wide",
                        initial_sidebar_state="expanded")
     # Le selecteur de langue est lu AVANT tout affichage. Streamlit rejoue
     # le script de haut en bas : si `choisir()` etait appele plus bas, le
-    # titre serait rendu avec la langue precedente — un render de retard,
+    # titre serait rendu avec la langue precedente, un render de retard,
     # visible a chaque bascule.
     with st.sidebar:
         langue.choisir()
@@ -958,7 +958,7 @@ def main() -> None:
     # Le modele n'est PLUS charge au demarrage. Il l'etait, et cela suffisait
     # a faire echouer le deploiement : lire 45 Mo de poids puis prechauffer
     # sur un processeur partage depasse le delai d'attente de l'hebergeur,
-    # qui tue le processus avant que Streamlit n'ouvre son port — sans
+    # qui tue le processus avant que Streamlit n'ouvre son port, sans
     # message, puisque le noyau n'attend pas que Python s'explique.
     #
     # Il se charge desormais a la premiere analyse reelle. Le tableau de

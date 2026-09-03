@@ -9,7 +9,7 @@ Le detecteur ne dit pas « cette personne porte un casque ». Il dit :
     « rectangle (300,  90, 520, 700), personne, 0,91 »
 
 Deux boites, aucun lien. C'est ce module qui decide si le casque appartient
-a cette personne — et c'est une REGLE METIER, ecrite a la main, pas une
+a cette personne, et c'est une REGLE METIER, ecrite a la main, pas une
 sortie du modele.
 
     Le modele detecte des objets. La regle produit le verdict.
@@ -37,13 +37,13 @@ Pourquoi le tiers superieur et non le quart
 --------------------------------------------
 Un casque se porte sur la tete, donc tres haut. Un seuil severe (20 %)
 refuserait des cas legitimes : personne penchee, accroupie, vue en plongee
-— or le J5 a montre que les cameras seront souvent en hauteur. Un seuil
+, or le J5 a montre que les cameras seront souvent en hauteur. Un seuil
 laxiste (50 %) attribuerait a une personne le casque de celle qui se tient
 derriere elle.
 
 35 % est un compromis, et il est REGLABLE : `PART_HAUTE`. Il n'a pas ete
 calibre sur des donnees, faute d'annotations reliant casques et personnes
-dans SH17 — cette limite doit etre declaree.
+dans SH17 : cette limite doit etre declaree.
 
 Le cas des personnes qui se chevauchent
 ----------------------------------------
@@ -58,7 +58,7 @@ test hors domaine du J9 a confirme une sur-detection de 24 %. Un systeme de
 detection d'ABSENCE qui voit des gants sur des mains nues ne declenche pas
 d'alerte : c'est une alerte ratee, silencieuse.
 
-Ce module ne corrige pas cette confusion — elle est dans le modele. Il la
+Ce module ne corrige pas cette confusion : elle est dans le modele. Il la
 DOCUMENTE, pour que le tableau de bord puisse afficher un niveau de
 confiance different selon la classe.
 """
@@ -79,14 +79,14 @@ EQUIPEMENTS_CORPS = {"safety-vest", "gloves", "safety-suit", "medical-suit", "sh
 
 
 # --------------------------------------------------------------------------
-# PERIMETRE DE SURVEILLANCE — ajoute le 24 aout, apres mesure.
+# PERIMETRE DE SURVEILLANCE, ajoute le 24 aout, apres mesure.
 #
 # Sur quatre images d'une video de chantier ou les douze personnes portent
 # un casque, le systeme produisait 16 fausses alertes sur 23 personnes
 # detectees. Chacune a ete attribuee a une cause :
 #
-#     trop LOIN — moins de 20 % de la hauteur d'image ....  9   56 %
-#     trop PRES — tete coupee par le bord superieur ......  6   38 %
+#     trop LOIN, moins de 20 % de la hauteur d'image ....  9   56 %
+#     trop PRES, tete coupee par le bord superieur ......  6   38 %
 #     autre .............................................  1    6 %
 #
 # LES DEUX CAUSES DOMINANTES SONT LA MEME : LA CAMERA EST MAL PLACEE.

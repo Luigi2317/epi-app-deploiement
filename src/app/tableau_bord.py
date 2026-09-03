@@ -1,5 +1,5 @@
 """
-Tableau de bord metier — indicateurs, chronologie, carte du champ, detail.
+Tableau de bord metier, indicateurs, chronologie, carte du champ, detail.
 
 Ce que ce fichier affiche, et sur quoi il s'appuie
 --------------------------------------------------
@@ -102,7 +102,7 @@ SURVEILLES = {"helmet": t("casque"), "glasses": t("lunettes"),
               "gloves": t("gants"), "safety-vest": t("gilet")}
 # Les CLES sont des valeurs de donnees : elles ne se traduisent jamais.
 # Les valeurs sont des libelles, traduits au moment de l'affichage par
-# `etiquette()` — pas ici, ou la langue choisie n'est pas encore connue.
+# `etiquette()`, pas ici, ou la langue choisie n'est pas encore connue.
 ETATS = {"surveillee": "surveillée",
          "hors_perimetre": "hors périmètre",
          "tete_hors_champ": "tête hors champ"}
@@ -195,7 +195,7 @@ def bandeau_declaration() -> None:
     """La phrase qui rend ce tableau de bord defendable."""
     st.info(
         t("**Ce que ces chiffres valent.** Les détections, verdicts, confiances "
-        "et positions sont **réels** — produits par le modèle sur de vraies "
+        "et positions sont **réels**, produits par le modèle sur de vraies "
         "images. L'**horodatage, la caméra et la zone sont simulés** : le "
         "système n'a jamais été déployé, il n'existe donc aucun historique. "
         "Le contexte est reconstitué pour démontrer les mécanismes ; les "
@@ -225,7 +225,7 @@ def indicateurs(donnees: pd.DataFrame) -> None:
                    if len(donnees) else None, delta_color="off")
     bas = st.columns(2)
     bas[0].metric(t("Taux de détection du casque"),
-                  f"{(n - alertes) / n:.1%}" if n else "—")
+                  f"{(n - alertes) / n:.1%}" if n else ",")
     bas[1].metric(t("[!] Alertes"), f"{alertes:,}".replace(",", " "))
 
     if n and (n - alertes) / n < 0.5:
@@ -294,7 +294,7 @@ def quatre_epi(donnees: pd.DataFrame) -> None:
         seuil = seuils.get(classe, 0.5)
         manquants = int((surveillees[f"conf_{classe}"] < seuil).sum())
         part = manquants / len(surveillees)
-        etiquette_case = "%s — %d (%.0f %%)" % (t(nom), manquants, part * 100)
+        etiquette_case = "%s, %d (%.0f %%)" % (t(nom), manquants, part * 100)
         with colonne:
             if st.checkbox(etiquette_case, value=classe in PERIMETRE_DEFAUT,
                            key=f"perimetre_{classe}"):
@@ -309,7 +309,7 @@ def quatre_epi(donnees: pd.DataFrame) -> None:
                    "sur rien."))
     else:
         par_personne = total / len(surveillees)
-        message = "**%d %s** — %.1f %s" % (
+        message = "**%d %s**, %.1f %s" % (
             total, t("alertes sur ce corpus"), par_personne,
             t("par personne surveillée"))
         (st.info if par_personne <= 0.5 else st.warning)(message)
@@ -321,7 +321,7 @@ def quatre_epi(donnees: pd.DataFrame) -> None:
             "consignée au document unique. Le système ne sait pas quelle "
             "tâche exécute la personne qu'il regarde. Sur le flux de "
             "chantier mesuré, alerter sur les lunettes signalerait **98 % "
-            "des ouvriers** — un chiffre qui ne décrit pas une "
+            "des ouvriers**, un chiffre qui ne décrit pas une "
             "non-conformité, mais une exigence qui ne s'applique pas là."))
 
     graphe = pd.DataFrame({
@@ -332,7 +332,7 @@ def quatre_epi(donnees: pd.DataFrame) -> None:
 
     st.caption(
         t("Les quatre équipements sont détectés, associés à une personne et "
-          "comptés. Un seul — le casque — déclenche une alerte en phase "
+          "comptés. Un seul (le casque) déclenche une alerte en phase "
           "pilote : c'est le seul dont les taux d'erreur mesurés le "
           "permettent. Les trois autres ont chacun une condition de retour "
           "chiffrée."))
@@ -340,7 +340,7 @@ def quatre_epi(donnees: pd.DataFrame) -> None:
 
 def chronologie(donnees: pd.DataFrame) -> None:
     st.subheader(t("Chronologie des alertes"))
-    st.caption(t("Horodatage simulé — la forme démontre le mécanisme, "
+    st.caption(t("Horodatage simulé : la forme démontre le mécanisme, "
                "les volumes sont réels."))
 
     par_jour = (donnees.groupby(["jour", "camera"])["alerte"]
@@ -352,7 +352,7 @@ def chronologie(donnees: pd.DataFrame) -> None:
     st.bar_chart(par_jour, x="jour", y=t("alertes"), color="camera",
                  height=260)
 
-    st.caption(t("Répartition horaire — utile pour dimensionner la "
+    st.caption(t("Répartition horaire, utile pour dimensionner la "
                "surveillance humaine."))
     par_heure = (donnees.groupby("heure")["alerte"].sum()
                  .reset_index().rename(columns={"alerte": t("alertes")}))
@@ -369,7 +369,7 @@ def carte_du_champ(donnees: pd.DataFrame) -> None:
     import altair as alt
 
     st.subheader(t("Où, dans le champ, les alertes se produisent-elles ?"))
-    st.caption(t("**Donnée réelle** — position mesurée de chaque personne dans "
+    st.caption(t("**Donnée réelle**, position mesurée de chaque personne dans "
                "l'image. Aucune simulation ici."))
 
     nature = st.session_state.get("_nature_corpus")
@@ -451,7 +451,7 @@ def carte_du_champ(donnees: pd.DataFrame) -> None:
         "proche. Une concentration au loin signale des personnes de quelques "
         "dizaines de pixels : le champ est trop large. Dans les deux cas, la "
         "correction est **le placement de la caméra**, pas un réglage du "
-        "logiciel — c'est le constat mesuré du 24 août."))
+        "logiciel : c'est le constat mesuré du 24 août."))
 
 
 def repartition(donnees: pd.DataFrame) -> None:
@@ -516,7 +516,7 @@ def detail(donnees: pd.DataFrame, nom_modele: str = MODELE_DU_CORPUS) -> None:
         st.markdown(t("**Confiances mesurées**"))
         for classe, nom in SURVEILLES.items():
             valeur = float(ligne.get(f"conf_{classe}", 0.0))
-            st.text(f"{nom:9s} {valeur:.3f}" + ("  —" if valeur == 0 else ""))
+            st.text(f"{nom:9s} {valeur:.3f}" + (" ," if valeur == 0 else ""))
         st.caption(t("Une confiance nulle signifie qu'aucun équipement de cette "
                    "classe n'a été rattaché à cette personne. C'est une "
                    "information, pas une donnée manquante."))

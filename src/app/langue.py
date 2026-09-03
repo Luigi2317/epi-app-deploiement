@@ -16,7 +16,7 @@ provoquer une erreur ou d'afficher une cle technique a l'utilisateur.
 
 Ce que couvre la traduction, et ce qu'elle ne couvre pas
 --------------------------------------------------------
-COUVERT : tout ce que lit un utilisateur de l'outil — titres, indicateurs,
+COUVERT : tout ce que lit un utilisateur de l'outil, titres, indicateurs,
 messages, legendes, avertissements, page des limites.
 
 NON COUVERT : les journaux techniques, les noms de fichiers et les
@@ -126,13 +126,13 @@ TRADUCTIONS = {
     "[OK] surveillée":
         "[OK] monitored",
     "Validation SH17, photographies de stock":
-        "SH17 validation — stock photographs",
+        "SH17 validation, stock photographs",
     "Flux de caméra, séquences de chantier réel":
-        "Camera feed — real construction site footage",
-    "Répartition horaire — utile pour dimensionner la surveillance humaine.":
-        "Hourly distribution — useful for sizing human supervision.",
-    "Horodatage simulé — la forme démontre le mécanisme, les volumes sont réels.":
-        "Simulated timestamps — the shape demonstrates the mechanism, the volumes are real.",
+        "Camera feed, real construction site footage",
+    "Répartition horaire, utile pour dimensionner la surveillance humaine.":
+        "Hourly distribution, useful for sizing human supervision.",
+    "Horodatage simulé : la forme démontre le mécanisme, les volumes sont réels.":
+        "Simulated timestamps, the shape demonstrates the mechanism, the volumes are real.",
     "Choisis une alerte : le système montre l'image et explique sa décision, détection par détection.":
         "Pick an alert: the system shows the image and explains its decision, detection by detection.",
     "Aucune donnée.":
@@ -142,14 +142,14 @@ TRADUCTIONS = {
     # Brouillon MyMemory, puis relecture terme a terme : la machine
     # rendait « confiance » par *trust*, « carte » par *card* et
     # « calibre » par *caliber*. Corrige a la main.
-    "**Ce que ces chiffres valent.** Les détections, verdicts, confiances et positions sont **réels** — produits par le modèle sur de vraies images. L'**horodatage, la caméra et la zone sont simulés** : le système n'a jamais été déployé, il n'existe donc aucun historique. Le contexte est reconstitué pour démontrer les mécanismes ; les chiffres qui engagent, eux, sont mesurés.":
-        "**What these figures are worth.** The detections, verdicts, confidence scores and positions are **real** — produced by the model on genuine images. The **timestamp, camera and zone are simulated**: the system has never been deployed, so no history exists. The context is reconstructed to demonstrate the mechanisms; the figures that commit us are measured.",
-    "**Ce que cette carte commande.** Une concentration en haut du cadre signale des têtes hors champ : la caméra est trop basse ou trop proche. Une concentration au loin signale des personnes de quelques dizaines de pixels : le champ est trop large. Dans les deux cas, la correction est **le placement de la caméra**, pas un réglage du logiciel — c'est le constat mesuré du 24 août.":
-        "**What this map calls for.** A concentration at the top of the frame indicates heads out of frame: the camera is too low or too close. A concentration far away indicates people only a few dozen pixels tall: the field of view is too wide. In both cases the fix is **camera placement**, not a software setting — this is the measured finding of 24 August.",
+    "**Ce que ces chiffres valent.** Les détections, verdicts, confiances et positions sont **réels**, produits par le modèle sur de vraies images. L'**horodatage, la caméra et la zone sont simulés** : le système n'a jamais été déployé, il n'existe donc aucun historique. Le contexte est reconstitué pour démontrer les mécanismes ; les chiffres qui engagent, eux, sont mesurés.":
+        "**What these figures are worth.** The detections, verdicts, confidence scores and positions are **real**, produced by the model on genuine images. The **timestamp, camera and zone are simulated**: the system has never been deployed, so no history exists. The context is reconstructed to demonstrate the mechanisms; the figures that commit us are measured.",
+    "**Ce que cette carte commande.** Une concentration en haut du cadre signale des têtes hors champ : la caméra est trop basse ou trop proche. Une concentration au loin signale des personnes de quelques dizaines de pixels : le champ est trop large. Dans les deux cas, la correction est **le placement de la caméra**, pas un réglage du logiciel : c'est le constat mesuré du 24 août.":
+        "**What this map calls for.** A concentration at the top of the frame indicates heads out of frame: the camera is too low or too close. A concentration far away indicates people only a few dozen pixels tall: the field of view is too wide. In both cases the fix is **camera placement**, not a software setting, this is the measured finding of 24 August.",
     "**Confiances mesurées**":
         "**Measured confidence scores**",
-    "**Donnée réelle** — position mesurée de chaque personne dans l'image. Aucune simulation ici.":
-        "**Real data** — measured position of each person in the image. No simulation here.",
+    "**Donnée réelle**, position mesurée de chaque personne dans l'image. Aucune simulation ici.":
+        "**Real data**, measured position of each person in the image. No simulation here.",
     "**Un taux bas est ici attendu, et il est juste.** Le jeu d'images de validation ne contient que 773 casques pour 11 063 personnes : la plupart des gens photographiés n'en portent réellement pas. Ce taux décrit la composition du corpus, non un dysfonctionnement du système.":
         "**A low rate is expected here, and it is correct.** The validation image set contains only 773 helmets for 11,063 people: most of the people photographed genuinely are not wearing one. This rate describes the composition of the corpus, not a malfunction of the system.",
     "3 correspond au réglage utilisé pour les mesures du J11.":
@@ -175,7 +175,7 @@ TRADUCTIONS = {
     "qu'un photographe place son sujet : **c'est la règle des tiers, pas "
     "une zone à risque**. Sur ce corpus, la carte mesure une convention "
     "photographique.":
-        "These images are **composed photographs** (Pexels stock library). The hot spot falls at the centre of the frame because that is where a photographer places the subject — **this is the rule of thirds, not a risk zone**. On this corpus the map measures a photographic convention, nothing more.",
+        "These images are **composed photographs** (Pexels stock library). The hot spot falls at the centre of the frame because that is where a photographer places the subject : **this is the rule of thirds, not a risk zone**. On this corpus the map measures a photographic convention, nothing more.",
     "Ces images sont des **captures de caméra fixe**. Ici, la carte mesure "
     "ce qu'elle doit mesurer : le cadrage. Une concentration en haut "
     "signale des têtes coupées, une concentration diffuse et faible signale"
@@ -202,8 +202,8 @@ TRADUCTIONS = {
         "no",
     "équipement":
         "equipment",
-    "Les quatre équipements sont détectés, associés à une personne et comptés. Un seul — le casque — déclenche une alerte en phase pilote : c'est le seul dont les taux d'erreur mesurés le permettent. Les trois autres ont chacun une condition de retour chiffrée.":
-        "All four items are detected, linked to a person and counted. Only one — the helmet — raises an alert during the pilot phase: it is the only one whose measured error rates allow it. Each of the other three has a measured condition for returning to the alert scope.",
+    "Les quatre équipements sont détectés, associés à une personne et comptés. Un seul (le casque) déclenche une alerte en phase pilote : c'est le seul dont les taux d'erreur mesurés le permettent. Les trois autres ont chacun une condition de retour chiffrée.":
+        "All four items are detected, linked to a person and counted. Only one (the helmet) raises an alert during the pilot phase: it is the only one whose measured error rates allow it. Each of the other three has a measured condition for returning to the alert scope.",
 
 
     # --- perimetre d'alerte configurable ---
@@ -221,8 +221,8 @@ TRADUCTIONS = {
         "No equipment selected: the system would alert on nothing.",
     "Chaque case indique ce qu'elle coûterait sur ce corpus. Le casque est coché par défaut : c'est le seul équipement obligatoire partout, et le seul dont les taux d'erreur mesurés le permettent.":
         "Each box shows what it would cost on this corpus. The helmet is ticked by default: it is the only item mandatory everywhere, and the only one whose measured error rates allow it.",
-    "Lunettes, gants et gilet ne sont pas exigés pour toutes les tâches : le Code du travail impose une évaluation par poste, consignée au document unique. Le système ne sait pas quelle tâche exécute la personne qu'il regarde. Sur le flux de chantier mesuré, alerter sur les lunettes signalerait **98 % des ouvriers** — un chiffre qui ne décrit pas une non-conformité, mais une exigence qui ne s'applique pas là.":
-        "Eye protection, gloves and hi-vis vests are not required for every task: French labour law requires a per-role risk assessment recorded in the site risk register. The system does not know which task the person it is looking at is performing. On the measured site footage, alerting on eye protection would flag **98 % of workers** — a figure that describes not non-compliance, but a requirement that does not apply there.",
+    "Lunettes, gants et gilet ne sont pas exigés pour toutes les tâches : le Code du travail impose une évaluation par poste, consignée au document unique. Le système ne sait pas quelle tâche exécute la personne qu'il regarde. Sur le flux de chantier mesuré, alerter sur les lunettes signalerait **98 % des ouvriers**, un chiffre qui ne décrit pas une non-conformité, mais une exigence qui ne s'applique pas là.":
+        "Eye protection, gloves and hi-vis vests are not required for every task: French labour law requires a per-role risk assessment recorded in the site risk register. The system does not know which task the person it is looking at is performing. On the measured site footage, alerting on eye protection would flag **98 % of workers** : a figure that describes not non-compliance, but a requirement that does not apply there.",
 
 
     # --- guide integre ---
@@ -234,10 +234,10 @@ TRADUCTIONS = {
 
     # --- modele affiche et origine des seuils (D-051) ---
     "**Seuils calibrés par classe** : mesurés, non choisis.":
-        "**Per-class calibrated thresholds** — measured, not chosen.",
+        "**Per-class calibrated thresholds**, measured, not chosen.",
     "**Seuils par défaut** : ce modèle n'a pas été calibré. Valeurs de "
     "repli, non mesurées.":
-        "**Default thresholds** — this model was not calibrated. Fallback values, not measured.",
+        "**Default thresholds**, this model was not calibrated. Fallback values, not measured.",
     "La détection ci-dessous est rejouée avec %s, alors que le corpus a été"
     " produit par %s. Les boîtes peuvent différer des confiances "
     "enregistrées à droite.":
@@ -381,14 +381,14 @@ def choisir() -> str:
     Le widget porte une CLE, et c'est ce qui le fait fonctionner.
 
     Sans cle, Streamlit identifie un widget par ses parametres de
-    construction — `index` compris. Or `index` change des qu'on choisit une
+    construction, `index` compris. Or `index` change des qu'on choisit une
     autre langue : Streamlit croit alors voir un widget different, le
     recree a neuf, et l'etat du clic se perd entre deux executions. Le
     bouton semble inerte.
 
     Avec `key="langue"`, Streamlit lit et ecrit lui-meme
     `st.session_state["langue"]`. On ne lui passe plus d'index, et on ne
-    reassigne plus la valeur a la main — le faire leverait d'ailleurs une
+    reassigne plus la valeur a la main, le faire leverait d'ailleurs une
     erreur, la cle appartenant desormais au widget.
     """
     if "langue" not in st.session_state:
@@ -413,5 +413,5 @@ def t(texte: str) -> str:
 
 
 def couverture() -> tuple[int, int]:
-    """Nombre de chaines traduites — affiche dans la page des limites."""
+    """Nombre de chaines traduites, affiche dans la page des limites."""
     return len(TRADUCTIONS), len(TRADUCTIONS)

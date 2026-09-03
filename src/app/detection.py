@@ -38,7 +38,7 @@ seul dont les taux d'erreur mesures le permettent.
 Depuis le 26 aout (D-048), le perimetre est REGLABLE par l'exploitant, avec
 le cout mesure affiche a cote de chaque equipement. Deux raisons :
 
-    1. les seuils des quatre classes existent — les figer dans le code
+    1. les seuils des quatre classes existent, les figer dans le code
        reviendrait a decider a la place de qui connait le chantier ;
 
     2. lunettes, gants et gilet ne sont pas exiges pour toutes les taches.
@@ -49,7 +49,7 @@ le cout mesure affiche a cote de chaque equipement. Deux raisons :
 
 Mesure a l'appui : sur le flux de chantier, alerter sur les lunettes
 signalerait 98 % des ouvriers. Ce chiffre ne decrit pas une
-non-conformite — il decrit une exigence qui ne s'applique pas la.
+non-conformite : il decrit une exigence qui ne s'applique pas la.
 
 Vocabulaire
 -----------
@@ -76,7 +76,7 @@ RACINE = Path(__file__).resolve().parents[2]
 # Plancher du seuil de detection brut. Volontairement tres bas : on veut
 # que le modele PROPOSE et que la decision TRANCHE.
 #
-# Corrige le 24 aout, apres echec d'un test. La valeur precedente — 0,20 —
+# Corrige le 24 aout, apres echec d'un test. La valeur precedente, 0,20,
 # etait SUPERIEURE au seuil calibre du gilet (0,1456) : toute detection de
 # gilet entre 0,1456 et 0,20 etait jetee avant d'atteindre la decision.
 # C'etait exactement le defaut corrige au J10, reintroduit par la porte de
@@ -100,7 +100,7 @@ CONFIANCE_SUIVI = 0.25
 # Ce n'est plus une constante figee : l'exploitant peut elargir le
 # perimetre, avec le cout affiche a cote de chaque case. Le systeme ne
 # decide pas a la place d'un responsable HSE qui, lui, connait les taches
-# de son chantier — mais il ne le laisse pas choisir a l aveugle.
+# de son chantier, mais il ne le laisse pas choisir a l aveugle.
 PERIMETRE_DEFAUT = {"helmet"}
 PERIMETRE_ALERTE = set(PERIMETRE_DEFAUT)      # compatibilite ascendante
 
@@ -220,14 +220,14 @@ class PersonneVue:
     def libelle(self) -> str:
         """Formulation prudente : une absence de detection, pas un jugement."""
         if self.statut is Statut.HORS_PERIMETRE:
-            return (f"hors perimetre — personne {self.identifiant} "
+            return (f"hors perimetre, personne {self.identifiant} "
                     f"trop eloignee pour etre jugee")
         if self.statut is Statut.TETE_HORS_CHAMP:
-            return (f"verdict impossible — tete de la personne "
+            return (f"verdict impossible, tete de la personne "
                     f"{self.identifiant} hors du champ")
         if self.manque_casque:
-            return f"casque non detecte — personne {self.identifiant}"
-        return f"casque detecte — personne {self.identifiant}"
+            return f"casque non detecte, personne {self.identifiant}"
+        return f"casque detecte, personne {self.identifiant}"
 
 
 @dataclass
@@ -331,7 +331,7 @@ class Detecteur:
         Analyse une video, image par image, avec memoire.
 
         Genere un tuple `(numero, ResultatImage, alertes)` par image
-        analysee. `cadence=3` n'analyse qu'une image sur trois — c'est le
+        analysee. `cadence=3` n'analyse qu'une image sur trois : c'est le
         reglage utilise pour les mesures du J11.
 
         C'est ici, et seulement ici, qu'interviennent l'hysteresis, la

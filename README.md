@@ -1,6 +1,6 @@
-# Detection du port des EPI sur chantier — application
+# Detection du port des EPI sur chantier, application
 
-**BC02 · Projet 1 — RNCP40875, Ecole 18.06**
+**BC02 · Projet 1, RNCP40875, Ecole 18.06**
 
 Application de demonstration du systeme de detection d'equipements de
 protection individuelle. Elle accompagne le rapport technique du projet.
@@ -13,7 +13,7 @@ protection individuelle. Elle accompagne le rapport technique du projet.
 | Image | depose une photographie, verdict par personne |
 | Video | depose une sequence : hysteresis, confirmation, agregation |
 | Guide | mode d'emploi integre |
-| Limites | ce que le systeme ne garantit pas — **a lire en premier** |
+| Limites | ce que le systeme ne garantit pas : **a lire en premier** |
 
 ## Ce qu'elle ne fait pas
 

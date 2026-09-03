@@ -17,8 +17,8 @@ deux natures d'information :
     SIMULE, attribue par ce script et DECLARE comme tel
         l'horodatage, la camera, la zone
 
-Les chiffres qui engagent — taux de detection, volume d'alertes, part de
-personnes non jugeables — sont donc mesures. Seul le contexte de deploiement
+Les chiffres qui engagent, taux de detection, volume d'alertes, part de
+personnes non jugeables : sont donc mesures. Seul le contexte de deploiement
 est reconstitue, et l'application l'affiche en clair.
 
     Un tableau de bord entierement fictif serait indefendable.
@@ -58,7 +58,7 @@ EXTENSIONS = {".jpg", ".jpeg", ".png", ".bmp"}
 SURVEILLES = ["helmet", "glasses", "gloves", "safety-vest"]
 
 # --------------------------------------------------------------------------
-# CONTEXTE SIMULE — tout ce qui suit est invente, et declare comme tel.
+# CONTEXTE SIMULE : tout ce qui suit est invente, et declare comme tel.
 #
 # Quatre cameras, une par zone type d'un chantier. Le choix des zones vient
 # des personas du J6, pas d'un tirage au hasard : ce sont les endroits ou un
@@ -141,7 +141,7 @@ def main() -> int:
     a.add_argument("--modele", default="yolov8m")
     a.add_argument("--limite", type=int, default=None)
     a.add_argument("--sortie", default="evenements",
-                   help="nom du corpus, sans extension — permet de garder plusieurs corpus cote a cote")
+                   help="nom du corpus, sans extension : permet de garder plusieurs corpus cote a cote")
     args = a.parse_args()
 
     source = RACINE / args.source
@@ -183,7 +183,7 @@ def main() -> int:
         alertes = sum(int(l["alerte"]) for l in csv.DictReader(flux))
 
     print(f"\n  {lignes} personnes sur {len(fichiers)} images "
-          f"— {duree:.0f} s\n")
+          f", {duree:.0f} s\n")
     print(f"    surveillees        {surveillees:6d}")
     print(f"    hors perimetre     {compte[Statut.HORS_PERIMETRE.value]:6d}")
     print(f"    tete hors champ    {compte[Statut.TETE_HORS_CHAMP.value]:6d}")

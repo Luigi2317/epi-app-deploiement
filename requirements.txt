@@ -2,7 +2,7 @@
 # Dependances de l'application DEPLOYEE.
 #
 # La premiere ligne est la plus importante : sans elle, pip installe les
-# roues CUDA de PyTorch — 2,5 Go — et le deploiement echoue faute de place.
+# roues CUDA de PyTorch (2,5 Go) et le deploiement echoue faute de place.
 # L'index CPU ramene le meme torch a environ 200 Mo.
 #
 # Sur OpenCV, revirement du 25/08. La variante `headless` avait ete choisie
@@ -10,7 +10,7 @@
 # journal de deploiement a montre que c'etait inefficace : ultralytics
 # declare `opencv-python` NORMAL dans ses dependances, donc pip l'installe
 # de toute facon. On se retrouvait avec DEUX OpenCV dans le meme
-# environnement, se disputant le meme module `cv2` — et libGL manquait
+# environnement, se disputant le meme module `cv2`, et libGL manquait
 # quand meme.
 #
 # On garde donc la variante normale, a la meme version, et on fournit
