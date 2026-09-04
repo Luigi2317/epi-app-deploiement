@@ -536,15 +536,15 @@ def page_image() -> None:
 def page_video(reglages: Reglages) -> None:
     st.subheader(t("Analyse d'une vidéo"))
     st.caption(
-        t("C'est ici qu'agissent les trois mécanismes du J11 : deux seuils "
-          "au lieu d'un, une confirmation sur images consécutives, et une "
-          "alerte par personne et par épisode.")
+        t("C'est ici qu'agissent les trois mécanismes de décision temporelle : "
+          "deux seuils au lieu d'un, une confirmation sur images consécutives, "
+          "et une alerte par personne et par épisode.")
     )
 
     fichier = st.file_uploader(t("Séquence de chantier"), type=["mp4", "avi", "mov"])
     cadence = st.slider(t("Analyser une image sur"), 1, 5, 3,
-                        help=t("3 correspond au réglage utilisé pour les "
-                               "mesures du J11."))
+                        help=t("3 correspond au réglage utilisé pour la "
+                               "mesure de référence du projet."))
     if fichier is None:
         st.info(t("Dépose une vidéo pour lancer l'analyse."))
         return

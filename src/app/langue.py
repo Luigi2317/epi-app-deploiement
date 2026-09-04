@@ -152,12 +152,12 @@ TRADUCTIONS = {
         "**Real data**, measured position of each person in the image. No simulation here.",
     "**Un taux bas est ici attendu, et il est juste.** Le jeu d'images de validation ne contient que 773 casques pour 11 063 personnes : la plupart des gens photographiés n'en portent réellement pas. Ce taux décrit la composition du corpus, non un dysfonctionnement du système.":
         "**A low rate is expected here, and it is correct.** The validation image set contains only 773 helmets for 11,063 people: most of the people photographed genuinely are not wearing one. This rate describes the composition of the corpus, not a malfunction of the system.",
-    "3 correspond au réglage utilisé pour les mesures du J11.":
-        "3 is the setting used for the day-11 measurements.",
-    "C'est ici qu'agissent les trois mécanismes du J11 : deux seuils au "
-    "lieu d'un, une confirmation sur images consécutives, et une alerte par"
-    " personne et par épisode.":
-        "This is where the three day-11 mechanisms apply: two thresholds instead of one, confirmation over consecutive frames, and one alert per person and per episode.",
+    "3 correspond au réglage utilisé pour la mesure de référence du projet.":
+        "3 is the setting used for the project's reference measurement.",
+    "C'est ici qu'agissent les trois mécanismes de décision temporelle : "
+    "deux seuils au lieu d'un, une confirmation sur images consécutives, "
+    "et une alerte par personne et par épisode.":
+        "This is where the three temporal decision mechanisms apply: two thresholds instead of one, confirmation over consecutive frames, and one alert per person and per episode.",
     "La même explication, détection par détection, en ligne de commande.":
         "The same explanation, detection by detection, from the command line.",
     "Sur une image isolée, il n'y a pas d'historique : le verdict est rendu"
